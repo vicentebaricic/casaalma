@@ -448,19 +448,6 @@ p { margin: 0 0 1.1em; max-width: 62ch; }
   gap: clamp(40px, 7vw, 110px);
   align-items: center;
 }
-.photo-placeholder {
-  aspect-ratio: 4 / 5;
-  display: grid; place-items: center; text-align: center;
-  background:
-    radial-gradient(ellipse at 50% 38%, #4a4642 0%, #262422 45%, #121110 100%);
-  border: 1px solid var(--line);
-  filter: grayscale(1);
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  color: #cfc9c0;
-}
-.photo-placeholder small { font-family: var(--font-body); font-size: .8rem; letter-spacing: .24em; text-transform: uppercase; color: #9a948b; }
-.host-photo figcaption { margin-top: 14px; font-size: .92rem; color: var(--text-muted); }
 .host-photo img { filter: grayscale(1) contrast(1.05); width: 100%; aspect-ratio: 4/5; object-fit: cover; }
 
 .crew { margin-top: 44px; padding-top: 32px; border-top: 1px solid var(--line); }
