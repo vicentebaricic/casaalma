@@ -127,20 +127,6 @@ p { margin: 0 0 1.1em; max-width: 62ch; }
 }
 .signature { color: var(--gold-light); margin-top: 1.4rem; }
 
-.tag-ejemplo {
-  display: inline-block;
-  font-family: var(--font-body);
-  font-size: .72rem;
-  font-weight: 500;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--on-gold);
-  background: #e7c77e;
-  padding: 3px 8px;
-  margin-right: 6px;
-  vertical-align: middle;
-}
-.tag-inline { font-size: .95rem; color: var(--text-muted); }
 
 /* ---------- Botones ---------- */
 .btn {
