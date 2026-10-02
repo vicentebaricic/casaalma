@@ -28,7 +28,7 @@
 - **Cupos:** muy limitados. Algunas fechas aparecen agotadas (16 y 30 de octubre).
 - **Fechas publicadas:** 2, 9, 16, 23 y 30 de octubre de 2026.
 - **Aviso del sitio:** la programación, artistas, DJs, viñas y shows pueden cambiar sin previo aviso.
-- **Compra:** carrito en el sitio (Shopify).
+- **Compra:** solo en el sitio (Shopify), en la ficha de cada fecha. Se paga completo al reservar.
 
 ### Eventos privados (arriendo, precios + IVA)
 
@@ -59,7 +59,7 @@
 ## Operación
 - **Horarios de atención:** el bot responde 24/7. Malik no tiene horario fijo. Experiencias: llegada a las 20:00 (se puede llegar después, con riesgo de perder parte de la cena) y término usualmente a las 00:30.
 - **Quién atiende hoy los mensajes:** Malik (dueño), que recibe las derivaciones del bot.
-- **Proceso de reserva de una experiencia:** carrito en el sitio o WhatsApp/DM. Dudas por WhatsApp o llamada.
+- **Proceso de reserva de una experiencia:** solo en el sitio (Shopify), en la ficha de la fecha. Las dudas se responden por WhatsApp (bot) o llamada.
 - **Proceso de cotización de evento privado:** botón "Cotizar" lleva a WhatsApp; luego cotización personalizada y reunión de planificación. Política de anticipo/reserva de fecha: **[POR CONFIRMAR]**.
 - **Medios de pago:** las experiencias se reservan solo por el sitio (Shopify) y se pagan completas al reservar, sin devolución. Transferencia u otros medios: **[POR CONFIRMAR]**.
 - **Políticas:** experiencias sin devolución. La experiencia se realiza con lluvia: hay espacios techados (casa, terraza y la zona cerrada del DJ). No hay cambio de fecha, pero se puede ceder la entrada a otra persona. Si Casa Alma cambia o suspende una fecha, el cliente elige entre nueva fecha o devolución.
