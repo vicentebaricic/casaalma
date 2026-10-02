@@ -28,7 +28,7 @@
 - **Cupos:** muy limitados. Algunas fechas aparecen agotadas (16 y 30 de octubre).
 - **Fechas publicadas:** 2, 9, 16, 23 y 30 de octubre de 2026.
 - **Aviso del sitio:** la programación, artistas, DJs, viñas y shows pueden cambiar sin previo aviso.
-- **Compra:** carrito en el sitio (Shopify) o reserva por WhatsApp/DM.
+- **Compra:** carrito en el sitio (Shopify).
 
 ### Eventos privados (arriendo, precios + IVA)
 
