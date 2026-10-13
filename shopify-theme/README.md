@@ -1,15 +1,15 @@
 # Casa Alma · Tema Shopify (base Dawn 16.0.0)
 
-Tema nuevo para almalife.myshopify.com. Se publica como **borrador (no activo)**.
+Tema nuevo para Casa Alma (tienda 5addc8.myshopify.com · admin "almalife"). Se publica como **borrador (no activo)**.
 
 ## Publicar como draft
 ```bash
 npm i -g @shopify/cli
 cd shopify-theme
 # Opción A (login interactivo en el navegador)
-shopify theme push --store almalife.myshopify.com --unpublished --theme "Casa Alma 2026 (borrador)"
+shopify theme push --store 5addc8.myshopify.com --unpublished --theme "Casa Alma 2026 (borrador)"
 # Opción B (sin navegador): password de la app "Theme Access"
-SHOPIFY_CLI_THEME_TOKEN=shptka_xxx shopify theme push --store almalife.myshopify.com --unpublished --theme "Casa Alma 2026 (borrador)"
+SHOPIFY_CLI_THEME_TOKEN=shptka_xxx shopify theme push --store 5addc8.myshopify.com --unpublished --theme "Casa Alma 2026 (borrador)"
 ```
 `--unpublished` crea un tema nuevo sin tocar el tema en vivo.
 
