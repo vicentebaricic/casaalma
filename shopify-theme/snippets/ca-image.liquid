@@ -1,0 +1,22 @@
+{%- comment -%}
+  Imagen de sección con respaldo.
+  - image: imagen elegida en el editor (image_picker)
+  - fallback: nombre de un archivo en /assets (se usa si no hay imagen elegida)
+  - alt, sizes, loading ('lazy' | 'eager'), widths
+{%- endcomment -%}
+{%- liquid
+  assign ca_loading = loading | default: 'lazy'
+  assign ca_sizes = sizes | default: '(min-width: 990px) 50vw, 100vw'
+  assign ca_widths = widths | default: '375, 550, 750, 1100, 1500, 1800'
+-%}
+{%- if image != blank -%}
+  {%- if ca_loading == 'eager' -%}
+    {{ image | image_url: width: 1800 | image_tag: alt: alt, sizes: ca_sizes, widths: ca_widths, loading: 'eager', fetchpriority: 'high' }}
+  {%- else -%}
+    {{ image | image_url: width: 1800 | image_tag: alt: alt, sizes: ca_sizes, widths: ca_widths, loading: 'lazy' }}
+  {%- endif -%}
+{%- elsif fallback != blank -%}
+  <img src="{{ fallback | asset_url }}" alt="{{ alt | escape }}" loading="{{ ca_loading }}" width="1200" height="1500">
+{%- else -%}
+  {{ 'lifestyle-1' | placeholder_svg_tag: 'ca-placeholder' }}
+{%- endif -%}

@@ -1,0 +1,40 @@
+<div class="ca ca-marquee" aria-hidden="true" style="--ca-marquee-speed: {{ section.settings.speed }}s;">
+  <div class="ca-marquee__track">
+    {%- for i in (1..2) -%}
+      {%- for block in section.blocks -%}
+        <span {% if forloop.parentloop.first %}{{ block.shopify_attributes }}{% endif %}>{{ block.settings.text }}</span><i>◆</i>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "CA · Cinta de texto",
+  "tag": "div",
+  "settings": [
+    { "type": "range", "id": "speed", "label": "Duración de una vuelta", "min": 15, "max": 90, "step": 5, "unit": "s", "default": 42 }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Frase",
+      "settings": [{ "type": "text", "id": "text", "label": "Texto", "default": "Menú de 6 tiempos" }]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "CA · Cinta de texto",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Menú de 6 tiempos" } },
+        { "type": "item", "settings": { "text": "Maridaje de vinos" } },
+        { "type": "item", "settings": { "text": "Música en vivo" } },
+        { "type": "item", "settings": { "text": "DJ" } },
+        { "type": "item", "settings": { "text": "Artistas invitados" } },
+        { "type": "item", "settings": { "text": "Liray · Chicureo" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

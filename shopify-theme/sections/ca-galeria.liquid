@@ -1,0 +1,87 @@
+<section
+  class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  aria-labelledby="CaGalTitle-{{ section.id }}"
+>
+  <div class="ca-container">
+    <div class="ca-head ca-center ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 id="CaGalTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+    </div>
+    <ul class="ca-list ca-gallery">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          if block.settings.image != blank
+            assign full = block.settings.image | image_url: width: 2000
+          elsif block.settings.fallback != blank
+            assign full = block.settings.fallback | asset_url
+          else
+            assign full = blank
+          endif
+        -%}
+        <li class="{% if block.settings.size == 'tall' %}ca-g--tall{% elsif block.settings.size == 'wide' %}ca-g--wide{% endif %}" {{ block.shopify_attributes }}>
+          <button class="ca-g__item" type="button" {% if full != blank %}data-ca-full="{{ full }}"{% endif %} aria-label="Ampliar: {{ block.settings.alt | escape }}">
+            {%- render 'ca-image',
+              image: block.settings.image,
+              fallback: block.settings.fallback,
+              alt: block.settings.alt,
+              sizes: '(min-width: 990px) 25vw, 50vw',
+              widths: '300, 450, 600, 900'
+            -%}
+          </button>
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if section.settings.note != blank -%}
+      <p class="ca-muted ca-center ca-small" style="margin-top: 28px;">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CA · Galería",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "galeria" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Galería · Instalaciones" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Conoce la casa." },
+    { "type": "text", "id": "note", "label": "Nota", "default": "Pronto: videos de Experiencias Casa Alma anteriores." }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Foto",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "text", "id": "alt", "label": "Descripción", "default": "Casa Alma" },
+        {
+          "type": "select", "id": "size", "label": "Tamaño",
+          "options": [
+            { "value": "normal", "label": "Normal" },
+            { "value": "tall", "label": "Alta" },
+            { "value": "wide", "label": "Ancha" }
+          ],
+          "default": "normal"
+        },
+        { "type": "text", "id": "fallback", "label": "Imagen de respaldo (archivo del tema)", "info": "Uso interno: se muestra mientras no elijas una imagen." }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [
+    {
+      "name": "CA · Galería",
+      "blocks": [
+        { "type": "image", "settings": { "alt": "La casona iluminada de noche", "size": "tall", "fallback": "ca-hero-noche.webp" } },
+        { "type": "image", "settings": { "alt": "Iglesia de campo cercana a Casa Alma", "size": "wide", "fallback": "ca-ceremonia-iglesia.webp" } },
+        { "type": "image", "settings": { "alt": "Invitados compartiendo en la cena", "fallback": "ca-experiencia-cena.webp" } },
+        { "type": "image", "settings": { "alt": "Piscina y jardín", "fallback": "ca-piscina.webp" } },
+        { "type": "image", "settings": { "alt": "Casona y jardines", "fallback": "ca-casona-jardin.webp" } },
+        { "type": "image", "settings": { "alt": "Jardines y árboles de la parcela", "fallback": "ca-jardines.webp" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,89 @@
+{%- liquid
+  assign featured = section.blocks | where: 'type', 'featured'
+  assign reviews = section.blocks | where: 'type', 'review'
+-%}
+<section
+  class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  aria-labelledby="CaRevTitle-{{ section.id }}"
+>
+  <div class="ca-container">
+    <div class="ca-head ca-center ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 id="CaRevTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="ca-muted">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    {%- for block in featured -%}
+      <figure class="ca-review ca-review--featured ca-reveal" {{ block.shopify_attributes }}>
+        <blockquote>“{{ block.settings.quote }}”</blockquote>
+        <figcaption>{{ block.settings.author }} <span>· {{ block.settings.source }}</span></figcaption>
+      </figure>
+    {%- endfor -%}
+
+    {%- if reviews.size > 0 -%}
+      <div class="ca-reviews" style="--ca-cols: {{ reviews.size | at_most: 4 }};">
+        {%- for block in reviews -%}
+          <figure class="ca-review ca-reveal" {{ block.shopify_attributes }}>
+            <blockquote>“{{ block.settings.quote }}”</blockquote>
+            <figcaption>{{ block.settings.author }} <span>{{ block.settings.source }}</span></figcaption>
+          </figure>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.link_label != blank and section.settings.link != blank -%}
+      <p class="ca-center"><a class="ca-link-arrow" href="{{ section.settings.link }}" target="_blank" rel="noopener">{{ section.settings.link_label }}</a></p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CA · Testimonios",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "opiniones" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Lo que dicen nuestros invitados" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Noches que se recuerdan." },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Reseñas reales de nuestros invitados en Google." },
+    { "type": "text", "id": "link_label", "label": "Texto del enlace", "default": "Ver todas las reseñas en Google" },
+    { "type": "url", "id": "link", "label": "Enlace a reseñas" }
+  ],
+  "blocks": [
+    {
+      "type": "featured",
+      "name": "Reseña destacada",
+      "limit": 1,
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Reseña" },
+        { "type": "text", "id": "author", "label": "Autor" },
+        { "type": "text", "id": "source", "label": "Fuente", "default": "Reseña de Google" }
+      ]
+    },
+    {
+      "type": "review",
+      "name": "Reseña",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Reseña" },
+        { "type": "text", "id": "author", "label": "Autor" },
+        { "type": "text", "id": "source", "label": "Fuente", "default": "Reseña de Google" }
+      ]
+    }
+  ],
+  "max_blocks": 13,
+  "presets": [
+    {
+      "name": "CA · Testimonios",
+      "blocks": [
+        { "type": "featured", "settings": { "quote": "Casa Alma Liray es una experiencia que sorprende cada vez. Ya he vivido más de tres de sus cenas maridaje y siempre logro descubrir algo nuevo. El lugar, el paisaje, la cálida acogida de sus anfitriones, la gastronomía, los vinos y los shows artísticos se combinan de una manera maravillosa. Cada cena está cuidada hasta el último detalle y se siente mucho más que una experiencia gastronómica. Sin duda, un lugar al que siempre dan ganas de volver.", "author": "Ro Pérez-Kallens Rojas", "source": "Reseña de Google" } },
+        { "type": "review", "settings": { "quote": "Una maravillosa experiencia, excelente gastronomía, anfitriones muy cercanos. Conoces mucha gente dado el ambiente de cercanía que le dan sus dueños.", "author": "Carolina Gonzalez", "source": "Reseña de Google" } },
+        { "type": "review", "settings": { "quote": "Un lugar para desconectar conectándose con la gastronomía y vino.", "author": "Miguel Wauters", "source": "Reseña de Google" } },
+        { "type": "review", "settings": { "quote": "Excelente lugar y una experiencia increíble. Realmente todo muy bueno.", "author": "Carolina Salinas", "source": "Reseña de Google" } },
+        { "type": "review", "settings": { "quote": "Excelente lugar y experiencia cerca de Santiago, lo mejor.", "author": "Cristian Carrasco Guerrero", "source": "Reseña de Google" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

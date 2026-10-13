@@ -1,0 +1,17 @@
+{%- comment -%}
+  Devuelve un link de WhatsApp con mensaje pre-escrito.
+  Uso: {% render 'ca-wa-url', message: 'Hola…', producto: product.title %}
+  En el mensaje, {producto} se reemplaza por el nombre de la experiencia.
+{%- endcomment -%}
+{%- liquid
+  assign ca_number = settings.ca_whatsapp | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '.'
+  assign ca_text = message | default: settings.ca_msg_contacto
+  if producto != blank
+    assign ca_text = ca_text | replace: '{producto}', producto
+  else
+    assign ca_text = ca_text | replace: '{producto}', 'la próxima Experiencia Casa Alma'
+  endif
+  assign ca_text = ca_text | url_encode | replace: '+', '%20'
+-%}
+https://wa.me/{{ ca_number }}?text={{ ca_text }}
+{%- comment -%}fin{%- endcomment -%}

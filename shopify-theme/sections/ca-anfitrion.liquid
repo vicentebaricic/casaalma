@@ -1,0 +1,68 @@
+<section
+  class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  aria-labelledby="CaHostTitle-{{ section.id }}"
+>
+  <div class="ca-container ca-host">
+    <figure class="ca-host__photo{% if section.settings.grayscale %} ca-host__photo--bw{% endif %} ca-reveal">
+      {%- render 'ca-image', image: section.settings.image, fallback: 'ca-malik-retrato.webp', alt: section.settings.image_alt -%}
+    </figure>
+    <div class="ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 id="CaHostTitle-{{ section.id }}">{{ section.settings.heading | newline_to_br }}</h2>
+      {%- if section.settings.lead != blank -%}<p class="ca-lead">{{ section.settings.lead }}</p>{%- endif -%}
+      <div class="ca-rte">{{ section.settings.text }}</div>
+      {%- if section.settings.signature != blank -%}<p class="ca-script ca-signature">{{ section.settings.signature }}</p>{%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="ca-crew">
+          {%- if section.settings.crew_title != blank -%}<p class="ca-crew__title">{{ section.settings.crew_title }}</p>{%- endif -%}
+          <ul class="ca-list ca-crew__list">
+            {%- for block in section.blocks -%}
+              <li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+            {%- endfor -%}
+          </ul>
+          {%- if section.settings.crew_note != blank -%}<p class="ca-muted">{{ section.settings.crew_note }}</p>{%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CA · Anfitrión",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "anfitrion" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false },
+    { "type": "image_picker", "id": "image", "label": "Retrato" },
+    { "type": "checkbox", "id": "grayscale", "label": "Foto en blanco y negro", "default": true },
+    { "type": "text", "id": "image_alt", "label": "Descripción de la imagen", "default": "Retrato de Malik, anfitrión de Casa Alma, sonriendo" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Tu anfitrión" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Soy Malik\ny esta es <em>mi casa.</em>" },
+    { "type": "textarea", "id": "lead", "label": "Bajada", "default": "Casa Alma nació de algo simple: las mejores noches de mi vida fueron alrededor de una mesa larga, con buena comida, buen vino y gente que no conocía al llegar." },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Quise crear ese mismo ambiente para ti. Aquí no vienes a un restaurante: vienes a cenar a mi casa. Yo te recibo en la puerta, te presento a los demás y me aseguro de que la noche sea como tiene que ser.</p>" },
+    { "type": "text", "id": "signature", "label": "Firma manuscrita", "default": "Con cariño, Malik." },
+    { "type": "header", "content": "Equipo" },
+    { "type": "text", "id": "crew_title", "label": "Título", "default": "Cada noche, un equipo distinto" },
+    { "type": "textarea", "id": "crew_note", "label": "Nota", "default": "El equipo va rotando para que cada Experiencia Casa Alma sea única. Lo único que se mantiene es la casa… y quien te abre la puerta." }
+  ],
+  "blocks": [
+    { "type": "role", "name": "Integrante", "settings": [{ "type": "text", "id": "text", "label": "Texto", "default": "Chefs invitados" }] }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "CA · Anfitrión",
+      "blocks": [
+        { "type": "role", "settings": { "text": "Chefs invitados" } },
+        { "type": "role", "settings": { "text": "Sommeliers" } },
+        { "type": "role", "settings": { "text": "DJs" } },
+        { "type": "role", "settings": { "text": "Músicos en vivo" } },
+        { "type": "role", "settings": { "text": "Artistas visuales" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

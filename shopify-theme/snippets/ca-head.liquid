@@ -1,0 +1,33 @@
+{%- comment -%}
+  Casa Alma · se carga en <head> desde layout/theme.liquid.
+  Tipografías, colores (Ajustes del tema → Casa Alma) y assets de las secciones ca-*.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ca-bg: {{ settings.ca_color_bg }};
+    --ca-bg-alt: {{ settings.ca_color_bg_alt }};
+    --ca-surface: {{ settings.ca_color_surface }};
+    --ca-text: {{ settings.ca_color_text }};
+    --ca-muted: {{ settings.ca_color_muted }};
+    --ca-gold: {{ settings.ca_color_gold }};
+    --ca-gold-light: {{ settings.ca_color_gold_light }};
+    --ca-on-gold: {{ settings.ca_color_on_gold }};
+    --ca-font-display: "Cormorant Garamond", "Times New Roman", serif;
+    --ca-font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
+    --ca-font-script: "Caveat", "Segoe Script", cursive;
+    {%- if settings.ca_use_fonts_globally %}
+    --font-heading-family: var(--ca-font-display);
+    --font-heading-weight: 600;
+    --font-body-family: var(--ca-font-body);
+    --font-body-weight: 300;
+    {%- endif %}
+  }
+  {%- if settings.ca_hide_cart %}
+  .header__icon--cart, cart-notification, cart-drawer, .product-form__buttons { display: none !important; }
+  {%- endif %}
+</style>
+{{ 'casa-alma.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'casa-alma.js' | asset_url }}" defer="defer"></script>

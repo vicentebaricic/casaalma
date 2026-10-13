@@ -1,0 +1,235 @@
+{%- capture wa_evento -%}{%- render 'ca-wa-url', message: settings.ca_msg_evento -%}{%- endcapture -%}
+{%- liquid
+  assign formats = section.blocks | where: 'type', 'format'
+  assign features = section.blocks | where: 'type', 'feature'
+  assign rates = section.blocks | where: 'type', 'rate'
+  assign sid = section.id
+-%}
+
+<section
+  class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  aria-labelledby="CaEvTitle-{{ sid }}"
+>
+  {%- comment -%} Concepto {%- endcomment -%}
+  <div class="ca-container ca-split ca-split--reverse">
+    <div class="ca-split__text ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 id="CaEvTitle-{{ sid }}">{{ section.settings.heading | newline_to_br }}</h2>
+      {%- if section.settings.lead != blank -%}<p class="ca-lead">{{ section.settings.lead }}</p>{%- endif -%}
+      <div class="ca-rte">{{ section.settings.text }}</div>
+      {%- if section.settings.button_label != blank -%}
+        <a class="ca-btn ca-btn--gold" href="{{ wa_evento }}" target="_blank" rel="noopener">{{ section.settings.button_label }}</a>
+      {%- endif -%}
+    </div>
+    <figure class="ca-split__media ca-reveal">
+      {%- render 'ca-image', image: section.settings.image, fallback: 'ca-casona-jardin.webp', alt: section.settings.image_alt -%}
+    </figure>
+  </div>
+
+  {%- comment -%} Ceremonias {%- endcomment -%}
+  {%- if section.settings.show_ceremony -%}
+    <div class="ca-container ca-ceremony ca-block-gap ca-reveal">
+      <figure class="ca-ceremony__media">
+        {%- render 'ca-image', image: section.settings.ceremony_image, fallback: 'ca-ceremonia-iglesia.webp', alt: section.settings.ceremony_heading -%}
+      </figure>
+      <div>
+        {%- if section.settings.ceremony_eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.ceremony_eyebrow }}</p>{%- endif -%}
+        <h3 class="ca-h2-sm">{{ section.settings.ceremony_heading }}</h3>
+        <div class="ca-rte">{{ section.settings.ceremony_text }}</div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Formatos {%- endcomment -%}
+  {%- if formats.size > 0 -%}
+    <div class="ca-container ca-block-gap">
+      <div class="ca-head ca-center ca-reveal">
+        {%- if section.settings.formats_eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.formats_eyebrow }}</p>{%- endif -%}
+        <h3 class="ca-h2-sm">{{ section.settings.formats_heading }}</h3>
+      </div>
+      <div class="ca-formats">
+        {%- for block in formats -%}
+          <article class="ca-format{% if block.settings.featured %} ca-format--featured{% endif %} ca-reveal" {{ block.shopify_attributes }}>
+            {%- if block.settings.number != blank -%}<span class="ca-format__num" aria-hidden="true">{{ block.settings.number }}</span>{%- endif -%}
+            <h4>{{ block.settings.title }}</h4>
+            <div class="ca-rte">{{ block.settings.text }}</div>
+            {%- assign items = block.settings.checks | newline_to_br | split: '<br />' -%}
+            {%- if block.settings.checks != blank -%}
+              <ul class="ca-list ca-checks">
+                {%- for item in items -%}
+                  {%- assign item_clean = item | strip -%}
+                  {%- if item_clean != blank -%}<li>{{ item_clean }}</li>{%- endif -%}
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            {%- if block.settings.note != blank -%}<p class="ca-muted ca-small">{{ block.settings.note }}</p>{%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Características del lugar {%- endcomment -%}
+  {%- if features.size > 0 -%}
+    <div class="ca-container ca-features ca-block-gap">
+      <figure class="ca-features__media ca-reveal">
+        {%- render 'ca-image', image: section.settings.features_image, fallback: 'ca-piscina.webp', alt: section.settings.features_image_alt -%}
+      </figure>
+      <ul class="ca-list">
+        {%- for block in features -%}
+          <li class="ca-feature ca-reveal" {{ block.shopify_attributes }}>
+            <p class="ca-feature__stat">{{ block.settings.stat }}</p>
+            <h4>{{ block.settings.title }}</h4>
+            <p>{{ block.settings.text }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Tarifas por temporada {%- endcomment -%}
+  {%- if rates.size > 0 -%}
+    <div class="ca-container ca-block-gap">
+      <div class="ca-rates ca-reveal" id="tarifas">
+        <div class="ca-rates__head">
+          <div>
+            {%- if section.settings.rates_eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.rates_eyebrow }}</p>{%- endif -%}
+            <h3 class="ca-h2-sm">{{ section.settings.rates_heading }}</h3>
+          </div>
+          <div class="ca-season" role="tablist" aria-label="Temporada" data-ca-seasons>
+            <button type="button" role="tab" id="CaTabLow-{{ sid }}" aria-selected="true" aria-controls="CaPanelLow-{{ sid }}">
+              {{- section.settings.low_label }} <small>{{ section.settings.low_months }}</small>
+            </button>
+            <button type="button" role="tab" id="CaTabHigh-{{ sid }}" aria-selected="false" aria-controls="CaPanelHigh-{{ sid }}" tabindex="-1">
+              {{- section.settings.high_label }} <small>{{ section.settings.high_months }}</small>
+            </button>
+          </div>
+        </div>
+        {%- for season in (1..2) -%}
+          {%- if season == 1 -%}
+            {%- assign panel_id = 'CaPanelLow-' | append: sid -%}
+            {%- assign tab_id = 'CaTabLow-' | append: sid -%}
+          {%- else -%}
+            {%- assign panel_id = 'CaPanelHigh-' | append: sid -%}
+            {%- assign tab_id = 'CaTabHigh-' | append: sid -%}
+          {%- endif -%}
+          <div role="tabpanel" id="{{ panel_id }}" aria-labelledby="{{ tab_id }}" {% if season == 2 %}hidden{% endif %}>
+            <table class="ca-rates__table">
+              <thead><tr><th scope="col">{{ section.settings.col_day }}</th><th scope="col">{{ section.settings.col_value }}</th></tr></thead>
+              <tbody>
+                {%- for block in rates -%}
+                  <tr {% if season == 1 %}{{ block.shopify_attributes }}{% endif %}>
+                    <th scope="row">{{ block.settings.day }}</th>
+                    <td>
+                      {%- if season == 1 -%}{{ block.settings.low }}{%- else -%}{{ block.settings.high }}{%- endif -%}
+                      {%- if block.settings.suffix != blank %} <span>{{ block.settings.suffix }}</span>{%- endif -%}
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+          </div>
+        {%- endfor -%}
+        <div class="ca-rates__foot">
+          <p class="ca-muted">{{ section.settings.rates_note }}</p>
+          {%- if section.settings.rates_button != blank -%}
+            <a class="ca-btn ca-btn--gold" href="{{ wa_evento }}" target="_blank" rel="noopener">{{ section.settings.rates_button }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "CA · Eventos privados",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "eventos" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": true },
+    { "type": "header", "content": "El concepto" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Eventos privados · El concepto" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Una casa para\ncelebrar distinto." },
+    { "type": "textarea", "id": "lead", "label": "Bajada", "default": "Casa Alma es una casona colonial chilena rodeada de jardines privados en Liray, Colina." },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Un lugar pensado para quienes quieren una celebración con identidad propia: más cercana, más natural y más auténtica que cualquier centro de eventos tradicional. Matrimonios, cumpleaños, aniversarios o encuentros de empresa.</p>" },
+    { "type": "text", "id": "button_label", "label": "Botón (abre WhatsApp)", "default": "Cotizar mi evento" },
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "text", "id": "image_alt", "label": "Descripción de la imagen", "default": "Casona colonial de Casa Alma rodeada de jardines y árboles" },
+    { "type": "header", "content": "Ceremonias" },
+    { "type": "checkbox", "id": "show_ceremony", "label": "Mostrar bloque de ceremonias", "default": true },
+    { "type": "image_picker", "id": "ceremony_image", "label": "Imagen" },
+    { "type": "text", "id": "ceremony_eyebrow", "label": "Antetítulo", "default": "Ceremonias" },
+    { "type": "text", "id": "ceremony_heading", "label": "Título", "default": "Del “sí” a la celebración." },
+    { "type": "richtext", "id": "ceremony_text", "label": "Texto", "default": "<p>Casa Alma está a minutos de distintas iglesias de campo y parroquias de la zona. La transición entre ceremonia y fiesta se vive de manera cercana, natural y fluida, sin largos traslados.</p>" },
+    { "type": "header", "content": "Formatos" },
+    { "type": "text", "id": "formats_eyebrow", "label": "Antetítulo", "default": "Formatos Casa Alma" },
+    { "type": "text", "id": "formats_heading", "label": "Título", "default": "Cada celebración encuentra su propia forma." },
+    { "type": "header", "content": "Características del lugar" },
+    { "type": "image_picker", "id": "features_image", "label": "Imagen" },
+    { "type": "text", "id": "features_image_alt", "label": "Descripción de la imagen", "default": "Piscina rodeada de pasto y palmeras en los jardines de Casa Alma" },
+    { "type": "header", "content": "Tarifas" },
+    { "type": "text", "id": "rates_eyebrow", "label": "Antetítulo", "default": "Valores arriendo · Solo Espacio" },
+    { "type": "text", "id": "rates_heading", "label": "Título", "default": "Tarifas por temporada." },
+    { "type": "text", "id": "low_label", "label": "Nombre temporada 1", "default": "Temporada baja" },
+    { "type": "text", "id": "low_months", "label": "Meses temporada 1", "default": "Abr – Oct" },
+    { "type": "text", "id": "high_label", "label": "Nombre temporada 2", "default": "Temporada alta" },
+    { "type": "text", "id": "high_months", "label": "Meses temporada 2", "default": "Nov – Mar" },
+    { "type": "text", "id": "col_day", "label": "Encabezado columna día", "default": "Día" },
+    { "type": "text", "id": "col_value", "label": "Encabezado columna valor", "default": "Valor" },
+    { "type": "text", "id": "rates_note", "label": "Nota", "default": "¿Tienes una fecha en mente? Escríbenos y te confirmamos disponibilidad el mismo día." },
+    { "type": "text", "id": "rates_button", "label": "Botón (abre WhatsApp)", "default": "Consultar disponibilidad" }
+  ],
+  "blocks": [
+    {
+      "type": "format",
+      "name": "Formato",
+      "settings": [
+        { "type": "text", "id": "number", "label": "Número", "default": "01" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Solo Espacio" },
+        { "type": "richtext", "id": "text", "label": "Descripción", "default": "<p>Uso exclusivo del lugar para quienes desean trabajar con sus propios proveedores y producción.</p>" },
+        { "type": "textarea", "id": "checks", "label": "Lista (una línea por ítem)" },
+        { "type": "text", "id": "note", "label": "Nota al pie" },
+        { "type": "checkbox", "id": "featured", "label": "Destacar", "default": false }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Característica",
+      "settings": [
+        { "type": "text", "id": "stat", "label": "Dato grande", "default": "5.000 m²" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Jardines privados" },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Un entorno verde y abierto, rodeado de campos y naturaleza." }
+      ]
+    },
+    {
+      "type": "rate",
+      "name": "Tarifa (fila)",
+      "settings": [
+        { "type": "text", "id": "day", "label": "Día", "default": "Sábado" },
+        { "type": "text", "id": "low", "label": "Valor temporada 1", "default": "$3.200.000" },
+        { "type": "text", "id": "high", "label": "Valor temporada 2", "default": "$3.900.000" },
+        { "type": "text", "id": "suffix", "label": "Sufijo", "default": "+ IVA" }
+      ]
+    }
+  ],
+  "max_blocks": 30,
+  "presets": [
+    {
+      "name": "CA · Eventos privados",
+      "blocks": [
+        { "type": "format", "settings": { "number": "01", "title": "Solo Espacio", "text": "<p>Uso exclusivo del lugar para quienes desean trabajar con sus propios proveedores y producción. Ideal para matrimonios y eventos de gran formato con total libertad creativa.</p>" } },
+        { "type": "format", "settings": { "number": "02", "title": "Experiencia Completa", "text": "<p>Completamente producida y coordinada por Casa Alma. Nosotros nos encargamos de todo para que tú solo disfrutes.</p>", "checks": "Banquetería y bar\nMontaje e iluminación\nDJ y ambientación\nCoordinación del evento", "note": "Valor según número de invitados y menú. Cotiza sin compromiso.", "featured": true } },
+        { "type": "feature", "settings": { "stat": "5.000 m²", "title": "Jardines privados", "text": "Un entorno verde y abierto, rodeado de campos y naturaleza, completamente exclusivo para tu evento." } },
+        { "type": "feature", "settings": { "stat": "Piscina", "title": "Y áreas verdes", "text": "Piscina rodeada de jardines y espacios al aire libre para todos los momentos del día y la noche." } },
+        { "type": "feature", "settings": { "stat": "Parking", "title": "Estacionamientos privados", "text": "Acceso cómodo para todos tus invitados, sin preocupaciones logísticas." } },
+        { "type": "rate", "settings": { "day": "Sábado", "low": "$3.200.000", "high": "$3.900.000", "suffix": "+ IVA" } },
+        { "type": "rate", "settings": { "day": "Viernes", "low": "$2.200.000", "high": "$2.900.000", "suffix": "+ IVA" } },
+        { "type": "rate", "settings": { "day": "Domingo", "low": "$1.600.000", "high": "$2.000.000", "suffix": "+ IVA" } },
+        { "type": "rate", "settings": { "day": "Lunes a jueves", "low": "$1.200.000", "high": "$1.500.000", "suffix": "+ IVA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

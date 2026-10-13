@@ -1,0 +1,34 @@
+{%- comment -%}
+  Estado de cupos de una experiencia según el inventario de Shopify.
+  Uso: {% render 'ca-cupos', product: product, threshold: 10, style: 'badge' | 'line' %}
+  - Si el inventario está controlado: muestra "Quedan X cupos" cuando hay pocos (<= threshold).
+  - Si no está disponible: "Sin cupos".
+{%- endcomment -%}
+{%- liquid
+  assign ca_tracked = false
+  assign ca_cupos = 0
+  for v in product.variants
+    if v.inventory_management == 'shopify'
+      assign ca_tracked = true
+      if v.inventory_quantity > 0
+        assign ca_cupos = ca_cupos | plus: v.inventory_quantity
+      endif
+    endif
+  endfor
+  assign ca_threshold = threshold | default: 10
+-%}
+{%- if style == 'line' -%}
+  {%- if product.available == false -%}
+    <p class="ca-stock ca-stock--out"><span class="ca-dot" aria-hidden="true"></span> Sin cupos para esta fecha</p>
+  {%- elsif ca_tracked and ca_cupos <= ca_threshold -%}
+    <p class="ca-stock"><span class="ca-dot" aria-hidden="true"></span> {% if ca_cupos == 1 %}Queda <strong>1 cupo</strong>{% else %}Quedan <strong>{{ ca_cupos }} cupos</strong>{% endif %}</p>
+  {%- else -%}
+    <p class="ca-stock"><span class="ca-dot" aria-hidden="true"></span> Cupos disponibles</p>
+  {%- endif -%}
+{%- else -%}
+  {%- if product.available == false -%}
+    <span class="ca-badge ca-badge--soldout">Sin cupos</span>
+  {%- elsif ca_tracked and ca_cupos <= ca_threshold -%}
+    <span class="ca-badge">{% if ca_cupos == 1 %}Último cupo{% else %}Quedan {{ ca_cupos }} cupos{% endif %}</span>
+  {%- endif -%}
+{%- endif -%}

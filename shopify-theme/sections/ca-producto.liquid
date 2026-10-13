@@ -1,0 +1,107 @@
+{%- liquid
+  if product.available
+    assign msg = settings.ca_msg_reserva
+  else
+    assign msg = settings.ca_msg_espera
+  endif
+  assign mf_parts = section.settings.subtitle_metafield | split: '.'
+  assign subtitle = blank
+  if mf_parts.size == 2
+    assign mf_ns = mf_parts[0]
+    assign mf_key = mf_parts[1]
+    assign subtitle = product.metafields[mf_ns][mf_key].value
+  endif
+-%}
+{%- capture wa -%}{%- render 'ca-wa-url', message: msg, producto: product.title -%}{%- endcapture -%}
+{%- capture wa_contacto -%}{%- render 'ca-wa-url', message: settings.ca_msg_contacto -%}{%- endcapture -%}
+
+<section class="ca ca-section" id="{{ section.id }}" style="padding-top: clamp(40px, 6vw, 90px);">
+  <div class="ca-container ca-product">
+    <div class="ca-product__media">
+      {%- assign main = product.featured_media -%}
+      {%- if main -%}
+        {{ main | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '500, 750, 1000, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: main.alt | default: product.title }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'ca-placeholder' }}
+      {%- endif -%}
+      {%- if section.settings.show_more_media and product.media.size > 1 -%}
+        <div class="ca-product__thumbs">
+          {%- for media in product.media offset: 1 -%}
+            {%- if media.media_type == 'image' -%}
+              <button class="ca-g__item" type="button" data-ca-full="{{ media | image_url: width: 2000 }}" aria-label="Ampliar imagen {{ forloop.index | plus: 1 }}">
+                {{ media | image_url: width: 400 | image_tag: loading: 'lazy', alt: media.alt | default: product.title }}
+              </button>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="ca-product__info">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h1 class="ca-product__title">{{ product.title }}</h1>
+      {%- if subtitle != blank -%}<p class="ca-lead ca-muted">{{ subtitle }}</p>{%- endif -%}
+      {%- if section.settings.show_price -%}
+        <p class="ca-product__price">{{ product.price | money }}</p>
+        {%- if section.settings.price_note != blank -%}<p class="ca-muted ca-small">{{ section.settings.price_note }}</p>{%- endif -%}
+      {%- endif -%}
+
+      {%- render 'ca-cupos', product: product, threshold: section.settings.low_stock, style: 'line' -%}
+
+      <div class="ca-actions">
+        <a class="ca-btn ca-btn--gold ca-btn--lg" href="{{ wa }}" target="_blank" rel="noopener">
+          {%- if product.available -%}{{ section.settings.button_label }}{%- else -%}{{ section.settings.soldout_label }}{%- endif -%}
+        </a>
+        {%- if section.settings.secondary_label != blank -%}
+          <a class="ca-btn ca-btn--outline ca-btn--lg" href="{{ wa_contacto }}" target="_blank" rel="noopener">{{ section.settings.secondary_label }}</a>
+        {%- endif -%}
+      </div>
+
+      {%- if product.description != blank -%}
+        <div class="ca-product__desc ca-rte">{{ product.description }}</div>
+      {%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <dl class="ca-facts" style="margin-top: 32px;">
+          {%- for block in section.blocks -%}
+            <div {{ block.shopify_attributes }}><dt>{{ block.settings.label }}</dt><dd>{{ block.settings.value }}</dd></div>
+          {%- endfor -%}
+        </dl>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "CA · Ficha experiencia",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Experiencia Casa Alma" },
+    { "type": "text", "id": "subtitle_metafield", "label": "Metacampo para subtítulo", "default": "custom.artista" },
+    { "type": "checkbox", "id": "show_price", "label": "Mostrar precio", "default": true },
+    { "type": "text", "id": "price_note", "label": "Nota bajo el precio", "default": "Por persona · cena de 6 tiempos, maridaje, música y show." },
+    { "type": "range", "id": "low_stock", "label": "Mostrar \"Quedan X cupos\" desde", "min": 1, "max": 40, "step": 1, "default": 10 },
+    { "type": "checkbox", "id": "show_more_media", "label": "Mostrar más fotos del producto", "default": true },
+    { "type": "header", "content": "Botones (WhatsApp)" },
+    { "type": "text", "id": "button_label", "label": "Botón con cupos", "default": "Reservar por WhatsApp" },
+    { "type": "text", "id": "soldout_label", "label": "Botón sin cupos", "default": "Anotarme en lista de espera" },
+    { "type": "text", "id": "secondary_label", "label": "Botón secundario", "default": "Tengo una consulta" }
+  ],
+  "blocks": [
+    {
+      "type": "fact",
+      "name": "Dato",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Etiqueta", "default": "Horario" },
+        { "type": "text", "id": "value", "label": "Valor", "default": "20:00 a 00:30 hrs" }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}

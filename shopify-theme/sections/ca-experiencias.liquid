@@ -1,0 +1,129 @@
+{%- liquid
+  assign ca_collection = section.settings.collection
+  if ca_collection == blank and collection != blank
+    assign ca_collection = collection
+  endif
+  assign mf_parts = section.settings.subtitle_metafield | split: '.'
+  assign mf_ns = mf_parts[0]
+  assign mf_key = mf_parts[1]
+  assign shown = 0
+-%}
+
+<section
+  class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  aria-labelledby="CaGridTitle-{{ section.id }}"
+>
+  <div class="ca-container">
+    <div class="ca-head ca-reveal{% if section.settings.center %} ca-center{% endif %}">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 class="ca-h2-sm" id="CaGridTitle-{{ section.id }}">
+        {{- section.settings.heading | default: ca_collection.title -}}
+      </h2>
+      {%- if section.settings.text != blank -%}
+        <p class="ca-muted">{{ section.settings.text }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if ca_collection != blank and ca_collection.products_count > 0 -%}
+      <ul class="ca-list ca-grid" style="--ca-cols: {{ section.settings.columns }};">
+        {%- for product in ca_collection.products limit: 50 -%}
+          {%- if section.settings.hide_sold_out and product.available == false -%}{%- continue -%}{%- endif -%}
+          {%- if shown >= section.settings.limit -%}{%- break -%}{%- endif -%}
+          {%- assign shown = shown | plus: 1 -%}
+          {%- liquid
+            if product.available
+              assign msg = settings.ca_msg_reserva
+            else
+              assign msg = settings.ca_msg_espera
+            endif
+            assign subtitle = blank
+            if mf_ns != blank and mf_key != blank
+              assign subtitle = product.metafields[mf_ns][mf_key].value
+            endif
+          -%}
+          {%- capture wa -%}{%- render 'ca-wa-url', message: msg, producto: product.title -%}{%- endcapture -%}
+          <li class="ca-card ca-reveal{% unless product.available %} ca-card--soldout{% endunless %}">
+            {%- render 'ca-cupos', product: product, threshold: section.settings.low_stock, style: 'badge' -%}
+            <a class="ca-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+              {%- if product.featured_media -%}
+                {{ product.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw', alt: product.featured_media.alt | default: product.title }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'ca-placeholder' }}
+              {%- endif -%}
+            </a>
+            <div class="ca-card__body">
+              <h3 class="ca-card__title">
+                {%- if section.settings.link_to_product -%}
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                {%- else -%}
+                  {{ product.title }}
+                {%- endif -%}
+              </h3>
+              {%- if subtitle != blank -%}
+                <p class="ca-card__sub">{{ subtitle }}</p>
+              {%- endif -%}
+              {%- if section.settings.show_price -%}
+                <p class="ca-card__price">{{ product.price | money }}{% if section.settings.price_suffix != blank %} <span class="ca-muted">{{ section.settings.price_suffix }}</span>{% endif %}</p>
+              {%- endif -%}
+              <span class="ca-card__spacer"></span>
+              <a class="ca-btn {% if product.available %}ca-btn--gold{% else %}ca-btn--outline{% endif %}" href="{{ wa }}" target="_blank" rel="noopener">
+                {%- if product.available -%}
+                  {{- section.settings.button_label -}}
+                {%- else -%}
+                  {{- section.settings.soldout_label -}}
+                {%- endif -%}
+              </a>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <div class="ca-empty">
+        {%- if request.design_mode -%}
+          Elige una colección con tus experiencias en la configuración de esta sección.
+        {%- else -%}
+          Pronto anunciaremos nuevas fechas. Escríbenos por WhatsApp para enterarte primero.
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.view_all_label != blank and ca_collection != blank -%}
+      <p class="ca-center" style="margin-top: 40px;">
+        <a class="ca-link-arrow" href="{{ ca_collection.url }}">{{ section.settings.view_all_label }}</a>
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CA · Fechas",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "fechas" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Próximas fechas" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Elige tu viernes.", "info": "Vacío = nombre de la colección." },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Cada noche tiene su propio invitado musical. Toca una fecha para reservar directo." },
+    { "type": "checkbox", "id": "center", "label": "Centrar encabezado", "default": false },
+    { "type": "header", "content": "Productos" },
+    { "type": "collection", "id": "collection", "label": "Colección de experiencias", "info": "En la página de una colección, si lo dejas vacío usa esa colección." },
+    { "type": "range", "id": "limit", "label": "Máximo de fechas", "min": 1, "max": 24, "step": 1, "default": 6 },
+    { "type": "select", "id": "columns", "label": "Columnas en escritorio", "options": [ { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" } ], "default": "3" },
+    { "type": "checkbox", "id": "hide_sold_out", "label": "Ocultar fechas sin cupos", "default": false },
+    { "type": "range", "id": "low_stock", "label": "Mostrar \"Quedan X cupos\" desde", "min": 1, "max": 40, "step": 1, "default": 10, "info": "Usa el inventario de Shopify de cada producto." },
+    { "type": "text", "id": "subtitle_metafield", "label": "Metacampo para subtítulo", "default": "custom.artista", "info": "Ej: custom.artista. Si el producto no lo tiene, no se muestra." },
+    { "type": "checkbox", "id": "show_price", "label": "Mostrar precio", "default": true },
+    { "type": "text", "id": "price_suffix", "label": "Texto después del precio", "default": "por persona" },
+    { "type": "checkbox", "id": "link_to_product", "label": "El título abre la ficha de la experiencia", "default": true },
+    { "type": "header", "content": "Botones" },
+    { "type": "text", "id": "button_label", "label": "Botón con cupos (abre WhatsApp)", "default": "Reservar esta fecha" },
+    { "type": "text", "id": "soldout_label", "label": "Botón sin cupos (abre WhatsApp)", "default": "Lista de espera" },
+    { "type": "text", "id": "view_all_label", "label": "Enlace \"ver todas\"", "default": "" }
+  ],
+  "presets": [{ "name": "CA · Fechas" }]
+}
+{% endschema %}

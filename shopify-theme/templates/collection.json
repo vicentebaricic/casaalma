@@ -1,0 +1,63 @@
+{
+  "sections": {
+    "grid": {
+      "type": "ca-experiencias",
+      "settings": {
+        "eyebrow": "Experiencia Casa Alma",
+        "heading": "",
+        "text": "Toca una fecha para reservar directo por WhatsApp.",
+        "limit": 24,
+        "columns": "3",
+        "anchor": "fechas"
+      }
+    },
+    "ubicacion": {
+      "type": "ca-ubicacion",
+      "settings": {},
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "label": "Experiencia Casa Alma",
+            "value": "Viernes · 20:00 a 00:30 hrs",
+            "kind": "text"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "label": "Eventos privados",
+            "value": "Visitas con cita previa",
+            "kind": "text"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "label": "WhatsApp",
+            "value": "+56 9 6753 2727",
+            "kind": "whatsapp"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "label": "Correo",
+            "value": "alma@almalife.cl",
+            "kind": "email"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
+      ]
+    }
+  },
+  "order": [
+    "grid",
+    "ubicacion"
+  ]
+}

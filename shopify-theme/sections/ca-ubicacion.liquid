@@ -1,0 +1,94 @@
+{%- capture wa_contacto -%}{%- render 'ca-wa-url', message: settings.ca_msg_contacto -%}{%- endcapture -%}
+<section
+  class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  aria-labelledby="CaLocTitle-{{ section.id }}"
+>
+  <div class="ca-container ca-location">
+    <div class="ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 id="CaLocTitle-{{ section.id }}">{{ section.settings.heading | newline_to_br }}</h2>
+      <address class="ca-rte">{{ section.settings.address }}</address>
+      <dl class="ca-contact">
+        {%- for block in section.blocks -%}
+          <div {{ block.shopify_attributes }}>
+            <dt>{{ block.settings.label }}</dt>
+            <dd>
+              {%- case block.settings.kind -%}
+                {%- when 'whatsapp' -%}<a href="{{ wa_contacto }}" target="_blank" rel="noopener">{{ block.settings.value | default: settings.ca_whatsapp }}</a>
+                {%- when 'email' -%}<a href="mailto:{{ block.settings.value }}">{{ block.settings.value }}</a>
+                {%- else -%}{{ block.settings.value }}
+              {%- endcase -%}
+            </dd>
+          </div>
+        {%- endfor -%}
+      </dl>
+      <div class="ca-actions">
+        {%- if section.settings.directions_label != blank -%}
+          <a class="ca-btn ca-btn--gold" href="https://www.google.com/maps/dir/?api=1&destination={{ section.settings.map_query | url_encode }}" target="_blank" rel="noopener">{{ section.settings.directions_label }}</a>
+        {%- endif -%}
+        {%- if section.settings.wa_label != blank -%}
+          <a class="ca-btn ca-btn--outline" href="{{ wa_contacto }}" target="_blank" rel="noopener">{{ section.settings.wa_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if section.settings.map_query != blank -%}
+      <div class="ca-map ca-reveal">
+        <iframe
+          title="Mapa: {{ section.settings.map_query | escape }}"
+          src="https://www.google.com/maps?q={{ section.settings.map_query | url_encode }}&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "CA · Ubicación",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "ubicacion" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Visítanos" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "A pasos de Chicureo,\nen pleno campo." },
+    { "type": "richtext", "id": "address", "label": "Dirección", "default": "<p><strong>Las Mercedes 10</strong><br>Liray, Colina · Región Metropolitana</p>" },
+    { "type": "text", "id": "map_query", "label": "Búsqueda en Google Maps", "default": "Casa Alma, Las Mercedes 10, Colina" },
+    { "type": "text", "id": "directions_label", "label": "Botón \"Cómo llegar\"", "default": "Cómo llegar" },
+    { "type": "text", "id": "wa_label", "label": "Botón WhatsApp", "default": "Escríbenos" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Dato de contacto",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Etiqueta", "default": "Horario" },
+        { "type": "text", "id": "value", "label": "Valor", "default": "Viernes · 20:00 a 00:30 hrs" },
+        {
+          "type": "select", "id": "kind", "label": "Tipo",
+          "options": [
+            { "value": "text", "label": "Texto" },
+            { "value": "whatsapp", "label": "WhatsApp (link)" },
+            { "value": "email", "label": "Correo (link)" }
+          ],
+          "default": "text"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "CA · Ubicación",
+      "blocks": [
+        { "type": "item", "settings": { "label": "Experiencia Casa Alma", "value": "Viernes · 20:00 a 00:30 hrs", "kind": "text" } },
+        { "type": "item", "settings": { "label": "Eventos privados", "value": "Visitas con cita previa", "kind": "text" } },
+        { "type": "item", "settings": { "label": "WhatsApp", "value": "+56 9 6753 2727", "kind": "whatsapp" } },
+        { "type": "item", "settings": { "label": "Correo", "value": "alma@almalife.cl", "kind": "email" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

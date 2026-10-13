@@ -1,0 +1,142 @@
+{%- capture wa_reserva -%}{%- render 'ca-wa-url', message: settings.ca_msg_reserva -%}{%- endcapture -%}
+{%- assign pillars = section.blocks | where: 'type', 'pillar' -%}
+{%- assign facts = section.blocks | where: 'type', 'fact' -%}
+
+<section
+  class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  aria-labelledby="CaExpTitle-{{ section.id }}"
+>
+  <div class="ca-container ca-split">
+    <div class="ca-split__text ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+      <h2 id="CaExpTitle-{{ section.id }}">{{ section.settings.heading | newline_to_br }}</h2>
+      {%- if section.settings.lead != blank -%}
+        <p class="ca-lead">{{ section.settings.lead }}</p>
+      {%- endif -%}
+      <div class="ca-rte">{{ section.settings.text }}</div>
+      {%- if section.settings.signature != blank -%}
+        <p class="ca-script ca-signature">{{ section.settings.signature }}</p>
+      {%- endif -%}
+    </div>
+    <figure class="ca-split__media ca-reveal">
+      {%- render 'ca-image',
+        image: section.settings.image,
+        fallback: 'ca-experiencia-cena.webp',
+        alt: section.settings.image_alt
+      -%}
+    </figure>
+  </div>
+
+  {%- if pillars.size > 0 -%}
+    <div class="ca-container ca-block-gap">
+      <ul class="ca-list ca-pillars">
+        {%- for block in pillars -%}
+          <li class="ca-pillar ca-reveal" {{ block.shopify_attributes }}>
+            <span class="ca-pillar__icon">{% render 'ca-icon', icon: block.settings.icon %}</span>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endif -%}
+
+  {%- if section.settings.show_price -%}
+    <div class="ca-container ca-block-gap">
+      <div class="ca-price-card ca-reveal">
+        <div>
+          <p class="ca-eyebrow">{{ section.settings.price_label }}</p>
+          <p class="ca-price">{{ section.settings.price }}</p>
+          <p class="ca-muted">{{ section.settings.price_note }}</p>
+        </div>
+        <dl class="ca-facts">
+          {%- for block in facts -%}
+            <div {{ block.shopify_attributes }}>
+              <dt>{{ block.settings.label }}</dt>
+              <dd>{{ block.settings.value }}</dd>
+            </div>
+          {%- endfor -%}
+        </dl>
+        {%- if section.settings.price_button != blank -%}
+          <a class="ca-btn ca-btn--gold ca-btn--lg" href="{{ wa_reserva }}" target="_blank" rel="noopener">
+            {{- section.settings.price_button -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "CA · La experiencia",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "experiencia" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false },
+    { "type": "header", "content": "Texto" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Experiencia Casa Alma" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Una cena larga,\nde esas que ya\nno se hacen." },
+    { "type": "textarea", "id": "lead", "label": "Bajada", "default": "Cada viernes abrimos las puertas de nuestra casona en Chicureo para un recorrido gastronómico donde la cocina, el vino, la música y el arte se unen para crear una noche única." },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Sin apuros ni mesas que rotan. Te sientas, conversas, y la noche va pasando plato a plato, copa a copa, mientras la música sube de a poco y el jardín se ilumina.</p>" },
+    { "type": "text", "id": "signature", "label": "Firma manuscrita", "default": "Te esperamos, Malik." },
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "text", "id": "image_alt", "label": "Descripción de la imagen", "default": "Invitados brindando alrededor de la mesa durante una Experiencia Casa Alma" },
+    { "type": "header", "content": "Tarjeta de precio" },
+    { "type": "checkbox", "id": "show_price", "label": "Mostrar tarjeta de precio", "default": true },
+    { "type": "text", "id": "price_label", "label": "Etiqueta", "default": "Valor por persona" },
+    { "type": "text", "id": "price", "label": "Precio", "default": "$79.990" },
+    { "type": "text", "id": "price_note", "label": "Nota", "default": "Todo incluido: cena de 6 tiempos, maridaje, música y show." },
+    { "type": "text", "id": "price_button", "label": "Botón (abre WhatsApp)", "default": "Reservar por WhatsApp" }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pilar",
+      "settings": [
+        {
+          "type": "select", "id": "icon", "label": "Ícono",
+          "options": [
+            { "value": "plato", "label": "Plato" },
+            { "value": "copa", "label": "Copa" },
+            { "value": "musica", "label": "Música" },
+            { "value": "arte", "label": "Arte" },
+            { "value": "casa", "label": "Casa" },
+            { "value": "estrella", "label": "Estrella" },
+            { "value": "calendario", "label": "Calendario" }
+          ],
+          "default": "plato"
+        },
+        { "type": "text", "id": "title", "label": "Título", "default": "Menú de 6 tiempos" },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Cocina de autor con producto de temporada, servida sin prisa." }
+      ]
+    },
+    {
+      "type": "fact",
+      "name": "Dato de la tarjeta de precio",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Etiqueta", "default": "Cuándo" },
+        { "type": "text", "id": "value", "label": "Valor", "default": "Viernes, una vez por semana" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "CA · La experiencia",
+      "blocks": [
+        { "type": "pillar", "settings": { "icon": "plato", "title": "Menú de 6 tiempos", "text": "Cocina de autor con producto de temporada, servida sin prisa." } },
+        { "type": "pillar", "settings": { "icon": "copa", "title": "Maridaje de vinos", "text": "Una copa pensada para cada tiempo, con vinos seleccionados." } },
+        { "type": "pillar", "settings": { "icon": "musica", "title": "Música en vivo y DJ", "text": "Empieza suave en la mesa y termina con DJ bajo las estrellas." } },
+        { "type": "pillar", "settings": { "icon": "arte", "title": "Artistas invitados", "text": "Cada fecha trae un artista distinto. Ninguna noche se repite." } },
+        { "type": "fact", "settings": { "label": "Cuándo", "value": "Viernes, una vez por semana" } },
+        { "type": "fact", "settings": { "label": "Horario", "value": "20:00 a 00:30 hrs" } },
+        { "type": "fact", "settings": { "label": "Dónde", "value": "Liray, Chicureo · Colina" } },
+        { "type": "fact", "settings": { "label": "Cupos", "value": "Limitados por fecha" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,130 @@
+{%- liquid
+  if section.settings.btn1_action == 'whatsapp_reserva'
+    capture btn1_href
+      render 'ca-wa-url', message: settings.ca_msg_reserva
+    endcapture
+  elsif section.settings.btn1_action == 'whatsapp_evento'
+    capture btn1_href
+      render 'ca-wa-url', message: settings.ca_msg_evento
+    endcapture
+  else
+    assign btn1_href = section.settings.btn1_link
+  endif
+-%}
+<section
+  class="ca ca-hero"
+  id="{{ section.settings.anchor | default: section.id | handle }}"
+  style="--ca-overlay: {{ section.settings.overlay | divided_by: 100.0 }}; --ca-hero-h: {{ section.settings.height }};"
+  aria-labelledby="CaHeroTitle-{{ section.id }}"
+>
+  <div class="ca-hero__media" aria-hidden="true">
+    {%- render 'ca-image',
+      image: section.settings.image,
+      fallback: 'ca-hero-noche.webp',
+      alt: '',
+      loading: 'eager',
+      sizes: '100vw'
+    -%}
+  </div>
+
+  <div class="ca-hero__content ca-container">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="ca-eyebrow">
+          {{- section.settings.eyebrow -}}
+          <span class="ca-eyebrow-line" aria-hidden="true"></span>
+        </p>
+      {%- endif -%}
+      <h1 id="CaHeroTitle-{{ section.id }}">{{ section.settings.heading | newline_to_br }}</h1>
+      {%- if section.settings.lead != blank -%}
+        <p class="ca-hero__lead">{{ section.settings.lead }}</p>
+      {%- endif -%}
+      <div class="ca-actions">
+        {%- if section.settings.btn1_label != blank -%}
+          <a
+            class="ca-btn ca-btn--gold ca-btn--lg"
+            href="{{ btn1_href | default: '#' }}"
+            {% if section.settings.btn1_action != 'link' %}
+              target="_blank" rel="noopener"
+            {% endif %}
+          >
+            {{- section.settings.btn1_label -}}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.btn2_label != blank -%}
+          <a class="ca-btn ca-btn--outline ca-btn--lg" href="{{ section.settings.btn2_link | default: '#' }}">
+            {{- section.settings.btn2_label -}}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <aside class="ca-hero__aside" aria-label="{{ section.settings.aside_label | escape }}">
+      {%- if section.settings.script != blank -%}
+        <p class="ca-script">{{ section.settings.script | newline_to_br }}</p>
+      {%- endif -%}
+      {%- if section.settings.status != blank -%}
+        <p class="ca-hero__status"><span class="ca-dot" aria-hidden="true"></span> {{ section.settings.status }}</p>
+      {%- endif -%}
+      {%- if section.settings.info_1 != blank -%}
+        <p class="ca-hero__info">{{ section.settings.info_1 }}</p>
+      {%- endif -%}
+      {%- if section.settings.info_2 != blank -%}
+        <p class="ca-hero__info ca-muted">{{ section.settings.info_2 }}</p>
+      {%- endif -%}
+    </aside>
+  </div>
+
+  {%- if section.settings.scroll_target != blank -%}
+    <a class="ca-scroll-cue" href="#{{ section.settings.scroll_target | handle }}" aria-label="Bajar"><span>Baja</span></a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "CA · Portada",
+  "tag": "div",
+  "class": "ca-section-wrap",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen de fondo", "info": "Si no eliges una, se usa la foto de la casona de noche." },
+    { "type": "range", "id": "overlay", "label": "Oscurecer imagen", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    {
+      "type": "select", "id": "height", "label": "Alto",
+      "options": [
+        { "value": "100svh", "label": "Pantalla completa" },
+        { "value": "80svh", "label": "Grande" },
+        { "value": "60svh", "label": "Mediano" }
+      ],
+      "default": "100svh"
+    },
+    { "type": "header", "content": "Texto principal" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Cena maridaje · Liray, Chicureo" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Experiencias\nque dejan <em>huellas.</em>", "info": "Usa <em>palabra</em> para destacarla en dorado cursiva." },
+    { "type": "textarea", "id": "lead", "label": "Bajada", "default": "Cocina, vino, música y arte en una casona colonial rodeada de jardines. Una noche para llegar como invitado y salir como amigo de la casa." },
+    { "type": "header", "content": "Botones" },
+    { "type": "text", "id": "btn1_label", "label": "Botón principal", "default": "Reservar mi cupo" },
+    {
+      "type": "select", "id": "btn1_action", "label": "Acción del botón principal",
+      "options": [
+        { "value": "whatsapp_reserva", "label": "WhatsApp · reservar experiencia" },
+        { "value": "whatsapp_evento", "label": "WhatsApp · cotizar evento" },
+        { "value": "link", "label": "Enlace" }
+      ],
+      "default": "whatsapp_reserva"
+    },
+    { "type": "url", "id": "btn1_link", "label": "Enlace del botón principal", "info": "Solo si la acción es \"Enlace\"." },
+    { "type": "text", "id": "btn2_label", "label": "Botón secundario", "default": "Eventos privados" },
+    { "type": "text", "id": "btn2_link", "label": "Enlace del botón secundario", "default": "#eventos", "info": "Ej: #eventos para bajar a esa sección, o /collections/experiencias" },
+    { "type": "header", "content": "Columna derecha" },
+    { "type": "text", "id": "aside_label", "label": "Etiqueta accesible", "default": "Datos de la próxima experiencia" },
+    { "type": "textarea", "id": "script", "label": "Frase manuscrita", "default": "Pasa, ponte cómodo.\nEsta noche la casa es tuya." },
+    { "type": "inline_richtext", "id": "status", "label": "Estado", "default": "Todos los <strong>viernes</strong> · cupos limitados" },
+    { "type": "inline_richtext", "id": "info_1", "label": "Dato 1", "default": "<strong>20:00 a 00:30 hrs</strong> · $79.990 por persona" },
+    { "type": "inline_richtext", "id": "info_2", "label": "Dato 2", "default": "Las Mercedes 10, Liray, Colina" },
+    { "type": "header", "content": "Avanzado" },
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "inicio" },
+    { "type": "text", "id": "scroll_target", "label": "Indicador \"Baja\" apunta a", "default": "experiencia", "info": "ID de la sección siguiente. Déjalo vacío para ocultar el indicador." }
+  ],
+  "presets": [{ "name": "CA · Portada" }]
+}
+{% endschema %}
