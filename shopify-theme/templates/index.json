@@ -198,25 +198,50 @@
         "wine_1": {
           "type": "wine",
           "settings": {
-            "name": "Viña por confirmar"
+            "name": "Valle Secreto",
+            "logo_fallback": "ca-vina-valle-secreto.webp"
           }
         },
         "wine_2": {
           "type": "wine",
           "settings": {
-            "name": "Viña por confirmar"
+            "name": "Dagaz",
+            "logo_fallback": "ca-vina-dagaz.webp"
           }
         },
         "wine_3": {
           "type": "wine",
           "settings": {
-            "name": "Viña por confirmar"
+            "name": "Viña Choapa",
+            "logo_fallback": "ca-vina-vina-choapa.webp"
           }
         },
         "wine_4": {
           "type": "wine",
           "settings": {
-            "name": "Viña por confirmar"
+            "name": "Viñateros de Raíz",
+            "logo_fallback": "ca-vina-vinateros-de-raiz.webp"
+          }
+        },
+        "wine_5": {
+          "type": "wine",
+          "settings": {
+            "name": "Casillero del Diablo",
+            "logo_fallback": "ca-vina-casillero-del-diablo.webp"
+          }
+        },
+        "wine_6": {
+          "type": "wine",
+          "settings": {
+            "name": "Miguel Torres Chile",
+            "logo_fallback": "ca-vina-miguel-torres.webp"
+          }
+        },
+        "wine_7": {
+          "type": "wine",
+          "settings": {
+            "name": "Santa Carolina",
+            "logo_fallback": "ca-vina-santa-carolina.webp"
           }
         }
       },
@@ -224,7 +249,10 @@
         "wine_1",
         "wine_2",
         "wine_3",
-        "wine_4"
+        "wine_4",
+        "wine_5",
+        "wine_6",
+        "wine_7"
       ]
     },
     "artistas": {

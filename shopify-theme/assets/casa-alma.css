@@ -548,3 +548,12 @@
 .ca .mt-hero .ca-eyebrow { max-width: none; }
 /* Galería: en 2 columnas, si queda una foto sola al final se oculta */
 @media (max-width: 749px) { .mt-ig__item:last-child:nth-child(odd) { display: none; } }
+/* Viñas con logo: sin caja, logos del mismo tamaño, centrados aunque la última fila quede incompleta */
+.mt-wines__grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 18px; }
+.mt-wine { flex: 0 1 calc(50% - 9px); }
+.mt-wine--logo { border: 0; padding: 4px; min-height: 0; }
+.ca .mt-wine__logo { width: 100%; max-width: 220px; height: auto; max-height: none; opacity: .92; transition: opacity 240ms var(--ca-ease); }
+.mt-wine a:hover .mt-wine__logo { opacity: 1; }
+@media (min-width: 750px) { .mt-wine { flex-basis: calc(25% - 14px); } }
+@media (min-width: 1100px) { .mt-wines__grid { gap: 16px 28px; } }
+@media (min-width: 1100px) { .mt-wine { flex-basis: calc(25% - 21px); } }
