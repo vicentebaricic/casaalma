@@ -1,14 +1,11 @@
 {
   "sections": {
     "grid": {
-      "type": "ca-experiencias",
+      "type": "mt-fechas",
       "settings": {
         "eyebrow": "Experiencia Casa Alma",
-        "heading": "",
-        "text": "Toca una fecha para reservar directo por WhatsApp.",
-        "limit": 24,
-        "columns": "3",
-        "anchor": "fechas"
+        "heading": "Elige tu viernes.",
+        "limit": 12
       }
     },
     "ubicacion": {

@@ -1,0 +1,69 @@
+{%- liquid
+  for i in (1..2)
+    if i == 1
+      assign act = section.settings.btn1_action
+      assign src = 'web_hero_exp'
+      assign msg = settings.ca_msg_reserva
+      assign lnk = section.settings.btn1_link
+    else
+      assign act = section.settings.btn2_action
+      assign src = 'web_hero_evt'
+      assign msg = settings.ca_msg_evento
+      assign lnk = section.settings.btn2_link
+    endif
+    if act == 'whatsapp'
+      capture href
+        render 'mt-wa-url', message: msg, source: src
+      endcapture
+    else
+      assign href = lnk
+    endif
+    if i == 1
+      assign href1 = href
+    else
+      assign href2 = href
+    endif
+  endfor
+-%}
+<section class="ca mt-hero" id="{{ section.settings.anchor | default: 'inicio' | handle }}" style="--ca-overlay: {{ section.settings.overlay | divided_by: 100.0 }};" aria-labelledby="MtHeroTitle-{{ section.id }}">
+  <div class="ca-hero__media" aria-hidden="true">
+    {%- render 'ca-image', image: section.settings.image, fallback: 'ca-hero-noche.webp', alt: '', loading: 'eager', sizes: '100vw' -%}
+  </div>
+  <div class="ca-container mt-hero__content">
+    {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h1 id="MtHeroTitle-{{ section.id }}">{{ section.settings.heading | newline_to_br }}</h1>
+    {%- if section.settings.subheading != blank -%}<p class="mt-hero__sub">{{ section.settings.subheading }}</p>{%- endif -%}
+    <div class="mt-actions">
+      {%- if section.settings.btn1_label != blank -%}
+        <a class="ca-btn ca-btn--gold ca-btn--lg" href="{{ href1 | default: '#' }}" {% if section.settings.btn1_action == 'whatsapp' %}target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_hero_exp"{% endif %}>{{ section.settings.btn1_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.btn2_label != blank -%}
+        <a class="ca-btn ca-btn--outline ca-btn--lg" href="{{ href2 | default: '#' }}" {% if section.settings.btn2_action == 'whatsapp' %}target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_hero_evt"{% endif %}>{{ section.settings.btn2_label }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT · Portada",
+  "tag": "div",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen de fondo", "info": "Ideal: la casona de noche. Sin imagen se usa la foto incluida en el tema." },
+    { "type": "range", "id": "overlay", "label": "Oscurecer imagen", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Cena maridaje · Eventos privados · Liray, Chicureo" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Experiencias que dejan <em>huellas.</em>", "info": "Usa <em>palabra</em> para destacarla en dorado." },
+    { "type": "text", "id": "subheading", "label": "Subtítulo", "default": "Cocina, vino, música y arte en una casona colonial." },
+    { "type": "header", "content": "Botón principal" },
+    { "type": "text", "id": "btn1_label", "label": "Texto", "default": "Reservar una experiencia" },
+    { "type": "select", "id": "btn1_action", "label": "Acción", "options": [ { "value": "whatsapp", "label": "WhatsApp (reserva · source=web_hero_exp)" }, { "value": "link", "label": "Enlace" } ], "default": "whatsapp" },
+    { "type": "text", "id": "btn1_link", "label": "Enlace (si la acción es Enlace)", "default": "#fechas" },
+    { "type": "header", "content": "Botón secundario" },
+    { "type": "text", "id": "btn2_label", "label": "Texto", "default": "Cotizar mi evento" },
+    { "type": "select", "id": "btn2_action", "label": "Acción", "options": [ { "value": "whatsapp", "label": "WhatsApp (evento · source=web_hero_evt)" }, { "value": "link", "label": "Enlace" } ], "default": "whatsapp" },
+    { "type": "text", "id": "btn2_link", "label": "Enlace (si la acción es Enlace)", "default": "#cotizar" },
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "inicio" }
+  ],
+  "presets": [{ "name": "MT · Portada" }]
+}
+{% endschema %}

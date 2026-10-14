@@ -1,47 +1,81 @@
 {
   "sections": {
     "hero": {
-      "type": "ca-hero",
+      "type": "mt-hero",
       "settings": {}
     },
-    "cinta": {
-      "type": "ca-marquee",
+    "caminos": {
+      "type": "mt-bifurcacion",
+      "settings": {},
+      "blocks": {
+        "path_1": {
+          "type": "path",
+          "settings": {
+            "fallback": "ca-experiencia-cena.webp",
+            "tag": "Experiencias Casa Alma",
+            "title": "Todos los viernes",
+            "text": "Cena de 6 tiempos, maridaje, música en vivo y artista invitado.",
+            "price": "$79.990",
+            "price_note": "por persona · Todo incluido",
+            "button_label": "Ver próximas fechas",
+            "button_link": "#fechas",
+            "button_style": "gold"
+          }
+        },
+        "path_2": {
+          "type": "path",
+          "settings": {
+            "fallback": "ca-casona-jardin.webp",
+            "tag": "Eventos privados",
+            "title": "Tu celebración, tu forma",
+            "text": "Matrimonios, cumpleaños y eventos de empresa en 5.000 m² privados.",
+            "price": "Desde $1.200.000",
+            "price_note": "+ IVA",
+            "button_label": "Armar mi cotización",
+            "button_link": "#cotizar",
+            "button_style": "gold"
+          }
+        }
+      },
+      "block_order": [
+        "path_1",
+        "path_2"
+      ]
+    },
+    "diferenciadores": {
+      "type": "mt-diferenciadores",
       "settings": {},
       "blocks": {
         "item_1": {
           "type": "item",
           "settings": {
-            "text": "Menú de 6 tiempos"
+            "icon": "musica",
+            "title": "Artistas nuevos cada semana",
+            "text": "Ninguna noche se repite."
           }
         },
         "item_2": {
           "type": "item",
           "settings": {
-            "text": "Maridaje de vinos"
+            "icon": "mesa",
+            "title": "Mesa larga, sin rotaciones",
+            "text": "Te sientas y la noche es tuya."
           }
         },
         "item_3": {
           "type": "item",
           "settings": {
-            "text": "Música en vivo"
+            "icon": "chef",
+            "title": "Chef y sommelier invitados",
+            "text": "El equipo rota en cada fecha."
           }
         },
         "item_4": {
           "type": "item",
           "settings": {
-            "text": "DJ"
-          }
-        },
-        "item_5": {
-          "type": "item",
-          "settings": {
-            "text": "Artistas invitados"
-          }
-        },
-        "item_6": {
-          "type": "item",
-          "settings": {
-            "text": "Liray · Chicureo"
+            "icon": "copa",
+            "title": "Viñas seleccionadas",
+            "text": "Una copa pensada para cada tiempo."
           }
         }
       },
@@ -49,300 +83,67 @@
         "item_1",
         "item_2",
         "item_3",
-        "item_4",
-        "item_5",
-        "item_6"
-      ]
-    },
-    "experiencia": {
-      "type": "ca-experiencia",
-      "settings": {},
-      "blocks": {
-        "pillar_1": {
-          "type": "pillar",
-          "settings": {
-            "icon": "plato",
-            "title": "Menú de 6 tiempos",
-            "text": "Cocina de autor con producto de temporada, servida sin prisa."
-          }
-        },
-        "pillar_2": {
-          "type": "pillar",
-          "settings": {
-            "icon": "copa",
-            "title": "Maridaje de vinos",
-            "text": "Una copa pensada para cada tiempo, con vinos seleccionados."
-          }
-        },
-        "pillar_3": {
-          "type": "pillar",
-          "settings": {
-            "icon": "musica",
-            "title": "Música en vivo y DJ",
-            "text": "Empieza suave en la mesa y termina con DJ bajo las estrellas."
-          }
-        },
-        "pillar_4": {
-          "type": "pillar",
-          "settings": {
-            "icon": "arte",
-            "title": "Artistas invitados",
-            "text": "Cada fecha trae un artista distinto. Ninguna noche se repite."
-          }
-        },
-        "fact_5": {
-          "type": "fact",
-          "settings": {
-            "label": "Cuándo",
-            "value": "Viernes, una vez por semana"
-          }
-        },
-        "fact_6": {
-          "type": "fact",
-          "settings": {
-            "label": "Horario",
-            "value": "20:00 a 00:30 hrs"
-          }
-        },
-        "fact_7": {
-          "type": "fact",
-          "settings": {
-            "label": "Dónde",
-            "value": "Liray, Chicureo · Colina"
-          }
-        },
-        "fact_8": {
-          "type": "fact",
-          "settings": {
-            "label": "Cupos",
-            "value": "Limitados por fecha"
-          }
-        }
-      },
-      "block_order": [
-        "pillar_1",
-        "pillar_2",
-        "pillar_3",
-        "pillar_4",
-        "fact_5",
-        "fact_6",
-        "fact_7",
-        "fact_8"
+        "item_4"
       ]
     },
     "fechas": {
-      "type": "ca-experiencias",
+      "type": "mt-fechas",
       "settings": {
-        "collection": "experiencias",
-        "limit": 6,
-        "columns": "3"
+        "collection": "experiencias-casa-alma"
       }
     },
-    "eventos": {
-      "type": "ca-eventos",
+    "cotizar": {
+      "type": "mt-cotizacion",
       "settings": {},
       "blocks": {
-        "format_1": {
-          "type": "format",
-          "settings": {
-            "number": "01",
-            "title": "Solo Espacio",
-            "text": "<p>Uso exclusivo del lugar para quienes desean trabajar con sus propios proveedores y producción. Ideal para matrimonios y eventos de gran formato con total libertad creativa.</p>"
-          }
-        },
-        "format_2": {
-          "type": "format",
-          "settings": {
-            "number": "02",
-            "title": "Experiencia Completa",
-            "text": "<p>Completamente producida y coordinada por Casa Alma. Nosotros nos encargamos de todo para que tú solo disfrutes.</p>",
-            "checks": "Banquetería y bar\nMontaje e iluminación\nDJ y ambientación\nCoordinación del evento",
-            "note": "Valor según número de invitados y menú. Cotiza sin compromiso.",
-            "featured": true
-          }
-        },
-        "feature_3": {
-          "type": "feature",
-          "settings": {
-            "stat": "5.000 m²",
-            "title": "Jardines privados",
-            "text": "Un entorno verde y abierto, rodeado de campos y naturaleza, completamente exclusivo para tu evento."
-          }
-        },
-        "feature_4": {
-          "type": "feature",
-          "settings": {
-            "stat": "Piscina",
-            "title": "Y áreas verdes",
-            "text": "Piscina rodeada de jardines y espacios al aire libre para todos los momentos del día y la noche."
-          }
-        },
-        "feature_5": {
-          "type": "feature",
-          "settings": {
-            "stat": "Parking",
-            "title": "Estacionamientos privados",
-            "text": "Acceso cómodo para todos tus invitados, sin preocupaciones logísticas."
-          }
-        },
-        "rate_6": {
+        "rate_1": {
           "type": "rate",
           "settings": {
-            "day": "Sábado",
-            "low": "$3.200.000",
-            "high": "$3.900.000",
-            "suffix": "+ IVA"
+            "day": "sat",
+            "name": "Sábado",
+            "low": "$3.200.000"
           }
         },
-        "rate_7": {
+        "rate_2": {
           "type": "rate",
           "settings": {
-            "day": "Viernes",
-            "low": "$2.200.000",
-            "high": "$2.900.000",
-            "suffix": "+ IVA"
+            "day": "fri",
+            "name": "Viernes",
+            "low": "$2.200.000"
           }
         },
-        "rate_8": {
+        "rate_3": {
           "type": "rate",
           "settings": {
-            "day": "Domingo",
-            "low": "$1.600.000",
-            "high": "$2.000.000",
-            "suffix": "+ IVA"
+            "day": "sun",
+            "name": "Domingo",
+            "low": "$1.600.000"
           }
         },
-        "rate_9": {
+        "rate_4": {
           "type": "rate",
           "settings": {
-            "day": "Lunes a jueves",
-            "low": "$1.200.000",
-            "high": "$1.500.000",
-            "suffix": "+ IVA"
+            "day": "weekday",
+            "name": "Lunes a jueves",
+            "low": "$1.200.000"
           }
         }
       },
       "block_order": [
-        "format_1",
-        "format_2",
-        "feature_3",
-        "feature_4",
-        "feature_5",
-        "rate_6",
-        "rate_7",
-        "rate_8",
-        "rate_9"
-      ]
-    },
-    "anfitrion": {
-      "type": "ca-anfitrion",
-      "settings": {},
-      "blocks": {
-        "role_1": {
-          "type": "role",
-          "settings": {
-            "text": "Chefs invitados"
-          }
-        },
-        "role_2": {
-          "type": "role",
-          "settings": {
-            "text": "Sommeliers"
-          }
-        },
-        "role_3": {
-          "type": "role",
-          "settings": {
-            "text": "DJs"
-          }
-        },
-        "role_4": {
-          "type": "role",
-          "settings": {
-            "text": "Músicos en vivo"
-          }
-        },
-        "role_5": {
-          "type": "role",
-          "settings": {
-            "text": "Artistas visuales"
-          }
-        }
-      },
-      "block_order": [
-        "role_1",
-        "role_2",
-        "role_3",
-        "role_4",
-        "role_5"
-      ]
-    },
-    "galeria": {
-      "type": "ca-galeria",
-      "settings": {},
-      "blocks": {
-        "image_1": {
-          "type": "image",
-          "settings": {
-            "alt": "La casona iluminada de noche",
-            "size": "tall",
-            "fallback": "ca-hero-noche.webp"
-          }
-        },
-        "image_2": {
-          "type": "image",
-          "settings": {
-            "alt": "Iglesia de campo cercana a Casa Alma",
-            "size": "wide",
-            "fallback": "ca-ceremonia-iglesia.webp"
-          }
-        },
-        "image_3": {
-          "type": "image",
-          "settings": {
-            "alt": "Invitados compartiendo en la cena",
-            "fallback": "ca-experiencia-cena.webp"
-          }
-        },
-        "image_4": {
-          "type": "image",
-          "settings": {
-            "alt": "Piscina y jardín",
-            "fallback": "ca-piscina.webp"
-          }
-        },
-        "image_5": {
-          "type": "image",
-          "settings": {
-            "alt": "Casona y jardines",
-            "fallback": "ca-casona-jardin.webp"
-          }
-        },
-        "image_6": {
-          "type": "image",
-          "settings": {
-            "alt": "Jardines y árboles de la parcela",
-            "fallback": "ca-jardines.webp"
-          }
-        }
-      },
-      "block_order": [
-        "image_1",
-        "image_2",
-        "image_3",
-        "image_4",
-        "image_5",
-        "image_6"
+        "rate_1",
+        "rate_2",
+        "rate_3",
+        "rate_4"
       ]
     },
     "testimonios": {
-      "type": "ca-testimonios",
+      "type": "mt-testimonios",
       "settings": {
-        "link": "https://www.google.com/maps/search/?api=1&query=Casa+Alma+Liray+Colina"
+        "rating_link": "https://www.google.com/maps/search/?api=1&query=Casa+Alma+Liray+Colina"
       },
       "blocks": {
-        "featured_1": {
-          "type": "featured",
+        "review_1": {
+          "type": "review",
           "settings": {
             "quote": "Casa Alma Liray es una experiencia que sorprende cada vez. Ya he vivido más de tres de sus cenas maridaje y siempre logro descubrir algo nuevo. El lugar, el paisaje, la cálida acogida de sus anfitriones, la gastronomía, los vinos y los shows artísticos se combinan de una manera maravillosa. Cada cena está cuidada hasta el último detalle y se siente mucho más que una experiencia gastronómica. Sin duda, un lugar al que siempre dan ganas de volver.",
             "author": "Ro Pérez-Kallens Rojas",
@@ -383,11 +184,119 @@
         }
       },
       "block_order": [
-        "featured_1",
+        "review_1",
         "review_2",
         "review_3",
         "review_4",
         "review_5"
+      ]
+    },
+    "vinas": {
+      "type": "mt-vinas",
+      "settings": {},
+      "blocks": {
+        "wine_1": {
+          "type": "wine",
+          "settings": {
+            "name": "Viña por confirmar"
+          }
+        },
+        "wine_2": {
+          "type": "wine",
+          "settings": {
+            "name": "Viña por confirmar"
+          }
+        },
+        "wine_3": {
+          "type": "wine",
+          "settings": {
+            "name": "Viña por confirmar"
+          }
+        },
+        "wine_4": {
+          "type": "wine",
+          "settings": {
+            "name": "Viña por confirmar"
+          }
+        }
+      },
+      "block_order": [
+        "wine_1",
+        "wine_2",
+        "wine_3",
+        "wine_4"
+      ]
+    },
+    "artistas": {
+      "type": "mt-artistas",
+      "settings": {}
+    },
+    "anfitrion": {
+      "type": "ca-anfitrion",
+      "settings": {
+        "alt_bg": true,
+        "lead": "Las mejores noches de mi vida fueron alrededor de una mesa larga, con buena comida, buen vino y gente que no conocía al llegar.",
+        "text": "<p>Aquí no vienes a un restaurante: vienes a cenar a mi casa. Yo te recibo en la puerta.</p>",
+        "crew_title": "",
+        "crew_note": ""
+      }
+    },
+    "instagram": {
+      "type": "mt-instagram",
+      "settings": {
+        "profile_url": "https://www.instagram.com/casa.alma.liray"
+      },
+      "blocks": {
+        "photo_1": {
+          "type": "photo",
+          "settings": {
+            "alt": "Experiencia Casa Alma",
+            "fallback": "ca-experiencia-cena.webp"
+          }
+        },
+        "photo_2": {
+          "type": "photo",
+          "settings": {
+            "alt": "Experiencia Casa Alma",
+            "fallback": "ca-hero-noche.webp"
+          }
+        },
+        "photo_3": {
+          "type": "photo",
+          "settings": {
+            "alt": "Experiencia Casa Alma",
+            "fallback": "ca-casona-jardin.webp"
+          }
+        },
+        "photo_4": {
+          "type": "photo",
+          "settings": {
+            "alt": "Experiencia Casa Alma",
+            "fallback": "ca-piscina.webp"
+          }
+        },
+        "photo_5": {
+          "type": "photo",
+          "settings": {
+            "alt": "Experiencia Casa Alma",
+            "fallback": "ca-jardines.webp"
+          }
+        },
+        "photo_6": {
+          "type": "photo",
+          "settings": {
+            "alt": "Experiencia Casa Alma",
+            "fallback": "ca-ceremonia-iglesia.webp"
+          }
+        }
+      },
+      "block_order": [
+        "photo_1",
+        "photo_2",
+        "photo_3",
+        "photo_4",
+        "photo_5",
+        "photo_6"
       ]
     },
     "ubicacion": {
@@ -437,13 +346,15 @@
   },
   "order": [
     "hero",
-    "cinta",
-    "experiencia",
+    "caminos",
+    "diferenciadores",
     "fechas",
-    "eventos",
-    "anfitrion",
-    "galeria",
+    "cotizar",
     "testimonios",
+    "vinas",
+    "artistas",
+    "anfitrion",
+    "instagram",
     "ubicacion"
   ]
 }

@@ -1,0 +1,129 @@
+{%- liquid
+  assign sid = section.id
+  assign tipos = section.settings.event_types | newline_to_br | split: '<br />'
+  assign rangos = section.settings.guest_ranges | newline_to_br | split: '<br />'
+-%}
+<section class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}" id="{{ section.settings.anchor | default: 'cotizar' | handle }}" aria-labelledby="MtQuoteTitle-{{ sid }}">
+  <div class="ca-container mt-quote">
+    <div class="mt-quote__intro ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="ca-h2-sm" id="MtQuoteTitle-{{ sid }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="ca-muted">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="mt-form-card ca-reveal"
+      data-mt-quote
+      data-high-months="{{ section.settings.high_months | escape }}"
+      data-msg="{{ section.settings.wa_message | escape }}"
+      data-wa="{{ settings.ca_whatsapp | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '.' }}"
+      data-ref="{{ settings.mt_wa_ref }}"
+      data-email-copy="{{ section.settings.email_copy }}"
+    >
+      <script type="application/json" data-mt-rates>
+        {
+          "labels": { "low": {{ section.settings.low_label | json }}, "high": {{ section.settings.high_label | json }} },
+          "suffix": {{ section.settings.rate_suffix | json }},
+          "pending": {{ section.settings.pending_text | json }},
+          "rates": {
+            {%- for block in section.blocks -%}
+              {{ block.settings.day | json }}: { "name": {{ block.settings.name | json }}, "low": {{ block.settings.low | json }}, "high": {{ block.settings.high | json }} }{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          }
+        }
+      </script>
+      <form class="mt-form" data-mt-quote-form novalidate>
+        <div class="mt-field">
+          <label for="MtQType-{{ sid }}">{{ section.settings.label_type }}</label>
+          <select id="MtQType-{{ sid }}" name="tipo" required>
+            <option value="" disabled selected>Elige una opción</option>
+            {%- for t in tipos -%}{%- assign tt = t | strip -%}{%- if tt != blank -%}<option>{{ tt }}</option>{%- endif -%}{%- endfor -%}
+          </select>
+        </div>
+        <div class="mt-field">
+          <label for="MtQDate-{{ sid }}">{{ section.settings.label_date }}</label>
+          <input id="MtQDate-{{ sid }}" name="fecha" type="date" required>
+        </div>
+        <div class="mt-field">
+          <label for="MtQGuests-{{ sid }}">{{ section.settings.label_guests }}</label>
+          <select id="MtQGuests-{{ sid }}" name="invitados" required>
+            <option value="" disabled selected>Elige un rango</option>
+            {%- for r in rangos -%}{%- assign rr = r | strip -%}{%- if rr != blank -%}<option>{{ rr }}</option>{%- endif -%}{%- endfor -%}
+          </select>
+        </div>
+        <div class="mt-field">
+          <label for="MtQContact-{{ sid }}">{{ section.settings.label_contact }}</label>
+          <input id="MtQContact-{{ sid }}" name="contacto" type="text" inputmode="email" autocomplete="email" placeholder="+56 9 … o tu@correo.cl" required>
+        </div>
+        <p class="mt-form__error" role="alert" hidden>{{ section.settings.error_text }}</p>
+        <button class="ca-btn ca-btn--gold ca-btn--lg mt-form__submit" type="submit">{{ section.settings.submit_label }}</button>
+      </form>
+
+      <div class="mt-result" data-mt-quote-result hidden tabindex="-1">
+        <p class="ca-eyebrow">{{ section.settings.result_eyebrow }}</p>
+        <p class="mt-result__value" data-mt-quote-value></p>
+        <p class="ca-muted mt-result__note" data-mt-quote-note></p>
+        <p class="ca-muted ca-small">{{ section.settings.result_disclaimer }}</p>
+        <a class="ca-btn ca-btn--gold ca-btn--lg" data-mt-quote-wa href="#" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_cotizacion">{{ section.settings.wa_label }}</a>
+        <button class="mt-link-btn" type="button" data-mt-quote-reset>Cambiar datos</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT · Cotización rápida",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "cotizar" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Eventos privados" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Cotiza tu evento en 30 segundos." },
+    { "type": "text", "id": "text", "label": "Texto", "default": "4 datos y te mostramos el valor de referencia al instante." },
+    { "type": "header", "content": "Campos" },
+    { "type": "text", "id": "label_type", "label": "Campo 1", "default": "Tipo de evento" },
+    { "type": "textarea", "id": "event_types", "label": "Opciones de tipo (una por línea)", "default": "Matrimonio\nCumpleaños\nEmpresa\nOtro" },
+    { "type": "text", "id": "label_date", "label": "Campo 2", "default": "Fecha tentativa" },
+    { "type": "text", "id": "label_guests", "label": "Campo 3", "default": "Invitados aproximados" },
+    { "type": "textarea", "id": "guest_ranges", "label": "Rangos de invitados (uno por línea)", "default": "50-100\n100-150\n150-200\n200+" },
+    { "type": "text", "id": "label_contact", "label": "Campo 4", "default": "Tu WhatsApp o correo" },
+    { "type": "text", "id": "error_text", "label": "Mensaje si falta un dato", "default": "Completa los 4 datos para ver tu valor." },
+    { "type": "text", "id": "submit_label", "label": "Botón enviar", "default": "Ver valor estimado" },
+    { "type": "header", "content": "Resultado" },
+    { "type": "text", "id": "result_eyebrow", "label": "Antetítulo", "default": "Valor de referencia · Solo Espacio" },
+    { "type": "text", "id": "low_label", "label": "Nombre temporada baja", "default": "temporada baja" },
+    { "type": "text", "id": "high_label", "label": "Nombre temporada alta", "default": "temporada alta" },
+    { "type": "text", "id": "high_months", "label": "Meses de temporada alta", "default": "11,12,1,2,3", "info": "Números de mes separados por coma. El resto es temporada baja." },
+    { "type": "text", "id": "rate_suffix", "label": "Sufijo del valor", "default": "+ IVA" },
+    { "type": "text", "id": "pending_text", "label": "Texto si falta el valor de esa temporada", "default": "Te confirmamos el valor por WhatsApp." },
+    { "type": "text", "id": "result_disclaimer", "label": "Aclaración", "default": "Arriendo del espacio. Banquetería y producción se cotizan aparte." },
+    { "type": "text", "id": "wa_label", "label": "Botón WhatsApp", "default": "Continuar por WhatsApp" },
+    { "type": "textarea", "id": "wa_message", "label": "Mensaje de WhatsApp", "default": "Hola Casa Alma, quiero cotizar un evento privado.\nTipo: {tipo}\nFecha tentativa: {fecha}\nInvitados: {invitados}\nContacto: {contacto}\nValor de referencia visto: {valor}", "info": "Variables: {tipo} {fecha} {invitados} {contacto} {valor}" },
+    { "type": "checkbox", "id": "email_copy", "label": "Enviar también una copia al correo de la tienda", "default": true, "info": "Usa el formulario de contacto de Shopify. Si el lead no escribe por WhatsApp, igual te queda el dato." }
+  ],
+  "blocks": [
+    {
+      "type": "rate",
+      "name": "Tarifa por día",
+      "settings": [
+        { "type": "select", "id": "day", "label": "Día", "options": [ { "value": "sat", "label": "Sábado" }, { "value": "fri", "label": "Viernes" }, { "value": "sun", "label": "Domingo" }, { "value": "weekday", "label": "Lunes a jueves" } ], "default": "sat" },
+        { "type": "text", "id": "name", "label": "Nombre visible", "default": "Sábado" },
+        { "type": "text", "id": "low", "label": "Valor temporada baja", "default": "$3.200.000" },
+        { "type": "text", "id": "high", "label": "Valor temporada alta", "info": "Vacío = se muestra \"te confirmamos el valor por WhatsApp\"." }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "MT · Cotización rápida",
+      "blocks": [
+        { "type": "rate", "settings": { "day": "sat", "name": "Sábado", "low": "$3.200.000" } },
+        { "type": "rate", "settings": { "day": "fri", "name": "Viernes", "low": "$2.200.000" } },
+        { "type": "rate", "settings": { "day": "sun", "name": "Domingo", "low": "$1.600.000" } },
+        { "type": "rate", "settings": { "day": "weekday", "name": "Lunes a jueves", "low": "$1.200.000" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

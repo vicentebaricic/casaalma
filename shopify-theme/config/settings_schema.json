@@ -48,6 +48,13 @@
       },
       {
         "type": "checkbox",
+        "id": "mt_wa_ref",
+        "label": "Agregar origen del lead al mensaje (ref: source=…)",
+        "default": true,
+        "info": "Permite saber si el contacto vino del hero, de una fecha, del formulario, etc."
+      },
+      {
+        "type": "checkbox",
         "id": "ca_show_wa_float",
         "label": "Mostrar botón flotante de WhatsApp",
         "default": true
@@ -121,6 +128,23 @@
         "label": "Usar Cormorant Garamond + Jost en todo el sitio",
         "default": true,
         "info": "Incluye encabezado, pie de página y páginas estándar."
+      },
+      {
+        "type": "header",
+        "content": "Meta Pixel"
+      },
+      {
+        "type": "text",
+        "id": "mt_pixel_id",
+        "label": "ID del Pixel de Meta",
+        "info": "Déjalo vacío si el pixel ya lo instala la app Facebook & Instagram. Si lo llenas, el tema carga el pixel y envía PageView."
+      },
+      {
+        "type": "checkbox",
+        "id": "mt_pixel_events",
+        "label": "Enviar eventos Lead y Contact",
+        "default": true,
+        "info": "Contact: cada clic a WhatsApp. Lead: cada envío de formulario. Requiere que el pixel esté cargado en la página."
       }
     ]
   },

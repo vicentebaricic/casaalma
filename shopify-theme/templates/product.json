@@ -43,7 +43,7 @@
     "mas": {
       "type": "ca-experiencias",
       "settings": {
-        "collection": "experiencias",
+        "collection": "experiencias-casa-alma",
         "eyebrow": "Otras fechas",
         "heading": "Elige otra noche.",
         "text": "",

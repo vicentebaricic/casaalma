@@ -1,0 +1,77 @@
+{%- liquid
+  assign sid = section.id
+  assign disciplinas = section.settings.disciplines | newline_to_br | split: '<br />'
+-%}
+<section class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}" id="{{ section.settings.anchor | default: 'artistas' | handle }}" aria-labelledby="MtArtTitle-{{ sid }}">
+  <div class="ca-container mt-quote">
+    <div class="mt-quote__intro ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="ca-h2-sm" id="MtArtTitle-{{ sid }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="ca-muted">{{ section.settings.text }}</p>{%- endif -%}
+    </div>
+    <div class="mt-form-card ca-reveal"
+      data-mt-artist
+      data-msg="{{ section.settings.wa_message | escape }}"
+      data-wa="{{ settings.ca_whatsapp | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '.' }}"
+      data-ref="{{ settings.mt_wa_ref }}"
+      data-email-copy="{{ section.settings.email_copy }}"
+    >
+      <form class="mt-form" data-mt-artist-form novalidate>
+        <div class="mt-field">
+          <label for="MtAName-{{ sid }}">{{ section.settings.label_name }}</label>
+          <input id="MtAName-{{ sid }}" name="nombre" type="text" autocomplete="name" required>
+        </div>
+        <div class="mt-field">
+          <label for="MtADisc-{{ sid }}">{{ section.settings.label_discipline }}</label>
+          <select id="MtADisc-{{ sid }}" name="disciplina" required>
+            <option value="" disabled selected>Elige una opción</option>
+            {%- for d in disciplinas -%}{%- assign dd = d | strip -%}{%- if dd != blank -%}<option>{{ dd }}</option>{%- endif -%}{%- endfor -%}
+          </select>
+        </div>
+        <div class="mt-field">
+          <label for="MtALink-{{ sid }}">{{ section.settings.label_link }} <span aria-hidden="true">*</span></label>
+          <input id="MtALink-{{ sid }}" name="portafolio" type="url" inputmode="url" placeholder="https://instagram.com/…" required>
+        </div>
+        <div class="mt-field">
+          <label for="MtAMsg-{{ sid }}">{{ section.settings.label_message }}</label>
+          <textarea id="MtAMsg-{{ sid }}" name="mensaje" rows="3" maxlength="200" data-mt-counter></textarea>
+          <span class="mt-counter ca-muted" aria-live="polite"><span data-mt-count>0</span>/200</span>
+        </div>
+        <p class="mt-form__error" role="alert" hidden>{{ section.settings.error_text }}</p>
+        <button class="ca-btn ca-btn--gold ca-btn--lg mt-form__submit" type="submit">{{ section.settings.submit_label }}</button>
+      </form>
+      <div class="mt-result" data-mt-artist-result hidden tabindex="-1">
+        <p class="mt-result__value">{{ section.settings.thanks_title }}</p>
+        <p class="ca-muted">{{ section.settings.thanks_text }}</p>
+        <a class="ca-btn ca-btn--gold ca-btn--lg" data-mt-artist-wa href="#" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_artistas">{{ section.settings.wa_label }}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT · Artistas",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "artistas" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Convocatoria" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "¿Eres artista? Postula a Casa Alma" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Buscamos músicos, DJs, artistas visuales y shows en vivo para nuestras noches." },
+    { "type": "text", "id": "label_name", "label": "Campo nombre", "default": "Nombre" },
+    { "type": "text", "id": "label_discipline", "label": "Campo disciplina", "default": "Disciplina" },
+    { "type": "textarea", "id": "disciplines", "label": "Disciplinas (una por línea)", "default": "Música en vivo\nDJ\nArtista visual\nPerformance\nOtro" },
+    { "type": "text", "id": "label_link", "label": "Campo portafolio (obligatorio)", "default": "Link a portafolio o redes" },
+    { "type": "text", "id": "label_message", "label": "Campo mensaje", "default": "Mensaje breve" },
+    { "type": "text", "id": "error_text", "label": "Mensaje si falta un dato", "default": "Completa nombre, disciplina y un link válido a tu portafolio (https://…)." },
+    { "type": "text", "id": "submit_label", "label": "Botón enviar", "default": "Enviar postulación" },
+    { "type": "text", "id": "thanks_title", "label": "Título de confirmación", "default": "¡Gracias por postular!" },
+    { "type": "text", "id": "thanks_text", "label": "Texto de confirmación", "default": "Para terminar, envíanos tu postulación por WhatsApp." },
+    { "type": "text", "id": "wa_label", "label": "Botón WhatsApp", "default": "Enviar por WhatsApp" },
+    { "type": "textarea", "id": "wa_message", "label": "Mensaje de WhatsApp", "default": "Hola Casa Alma, quiero postular como artista.\nNombre: {nombre}\nDisciplina: {disciplina}\nPortafolio: {portafolio}\nMensaje: {mensaje}", "info": "Variables: {nombre} {disciplina} {portafolio} {mensaje}" },
+    { "type": "checkbox", "id": "email_copy", "label": "Enviar también una copia al correo de la tienda", "default": true }
+  ],
+  "presets": [{ "name": "MT · Artistas" }]
+}
+{% endschema %}

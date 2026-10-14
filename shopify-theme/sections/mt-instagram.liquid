@@ -1,0 +1,49 @@
+<section class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}" id="{{ section.settings.anchor | default: 'instagram' | handle }}" aria-labelledby="MtIgTitle-{{ section.id }}">
+  <div class="ca-container">
+    <div class="ca-head ca-center ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="ca-h2-sm" id="MtIgTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+    </div>
+    <ul class="ca-list mt-ig" style="--mt-ig-gap: {{ section.settings.gap }}px;">
+      {%- for block in section.blocks -%}
+        <li class="mt-ig__item" {{ block.shopify_attributes }}>
+          {%- render 'ca-image', image: block.settings.image, fallback: block.settings.fallback, alt: block.settings.alt, sizes: '(min-width: 750px) 33vw, 50vw', widths: '300, 450, 600, 900' -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+    {%- if section.settings.button_label != blank and section.settings.profile_url != blank -%}
+      <p class="mt-center-actions">
+        <a class="ca-btn ca-btn--gold ca-btn--lg" href="{{ section.settings.profile_url }}" target="_blank" rel="noopener">{{ section.settings.button_label }}</a>
+      </p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT · Galería Instagram",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "instagram" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "@casa.alma.liray" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Así se vive Casa Alma." },
+    { "type": "range", "id": "gap", "label": "Separación entre fotos", "min": 0, "max": 12, "step": 1, "unit": "px", "default": 6 },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Seguir en Instagram" },
+    { "type": "url", "id": "profile_url", "label": "Perfil de Instagram" }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Foto",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Se recorta en cuadrado (1:1). Ideal 1080×1080." },
+        { "type": "text", "id": "alt", "label": "Descripción", "default": "Experiencia Casa Alma" },
+        { "type": "text", "id": "fallback", "label": "Imagen de respaldo (archivo del tema)", "info": "Uso interno: se muestra mientras no elijas una imagen." }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "MT · Galería Instagram" }]
+}
+{% endschema %}

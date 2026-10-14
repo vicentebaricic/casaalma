@@ -1,0 +1,64 @@
+<section class="ca ca-section mt-split{% if section.settings.alt_bg %} ca--alt{% endif %}" id="{{ section.settings.anchor | default: section.id | handle }}" aria-label="{{ section.settings.aria_label | escape }}">
+  <div class="ca-container">
+    <div class="mt-paths">
+      {%- for block in section.blocks -%}
+        <article class="mt-path ca-reveal" {{ block.shopify_attributes }}>
+          <a class="mt-path__media" href="{{ block.settings.button_link | default: '#' }}" tabindex="-1" aria-hidden="true">
+            {%- render 'ca-image', image: block.settings.image, fallback: block.settings.fallback, alt: '', sizes: '(min-width: 750px) 50vw, 100vw' -%}
+            {%- if block.settings.tag != blank -%}<span class="mt-path__tag">{{ block.settings.tag }}</span>{%- endif -%}
+          </a>
+          <div class="mt-path__body">
+            <h2 class="mt-path__title">{{ block.settings.title }}</h2>
+            {%- if block.settings.text != blank -%}<p class="mt-path__text">{{ block.settings.text }}</p>{%- endif -%}
+            {%- if block.settings.price != blank -%}
+              <p class="mt-path__price">{{ block.settings.price }}{% if block.settings.price_note != blank %} <span>{{ block.settings.price_note }}</span>{% endif %}</p>
+            {%- endif -%}
+            {%- if block.settings.button_label != blank -%}
+              <a class="ca-btn {% if block.settings.button_style == 'outline' %}ca-btn--outline{% else %}ca-btn--gold{% endif %} ca-btn--lg mt-path__btn" href="{{ block.settings.button_link | default: '#' }}">{{ block.settings.button_label }}</a>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT · Dos caminos",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "que-ofrecemos" },
+    { "type": "text", "id": "aria_label", "label": "Etiqueta accesible", "default": "Qué ofrece Casa Alma" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "path",
+      "name": "Tarjeta",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Foto" },
+        { "type": "text", "id": "fallback", "label": "Foto de respaldo (archivo del tema)", "info": "Uso interno: se muestra mientras no elijas una foto." },
+        { "type": "text", "id": "tag", "label": "Etiqueta sobre la foto", "default": "Experiencias Casa Alma" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Todos los viernes" },
+        { "type": "textarea", "id": "text", "label": "Frase", "default": "Cena de 6 tiempos, maridaje, música en vivo y artista invitado." },
+        { "type": "text", "id": "price", "label": "Precio", "default": "$79.990" },
+        { "type": "text", "id": "price_note", "label": "Nota del precio", "default": "por persona · Todo incluido" },
+        { "type": "text", "id": "button_label", "label": "Botón", "default": "Ver próximas fechas" },
+        { "type": "text", "id": "button_link", "label": "Enlace del botón", "default": "#fechas", "info": "#fechas o #cotizar bajan a esa sección." },
+        { "type": "select", "id": "button_style", "label": "Estilo del botón", "options": [ { "value": "gold", "label": "Dorado" }, { "value": "outline", "label": "Borde" } ], "default": "gold" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "MT · Dos caminos",
+      "blocks": [
+        { "type": "path", "settings": { "fallback": "ca-experiencia-cena.webp", "tag": "Experiencias Casa Alma", "title": "Todos los viernes", "text": "Cena de 6 tiempos, maridaje, música en vivo y artista invitado.", "price": "$79.990", "price_note": "por persona · Todo incluido", "button_label": "Ver próximas fechas", "button_link": "#fechas", "button_style": "gold" } },
+        { "type": "path", "settings": { "fallback": "ca-casona-jardin.webp", "tag": "Eventos privados", "title": "Tu celebración, tu forma", "text": "Matrimonios, cumpleaños y eventos de empresa en 5.000 m² privados.", "price": "Desde $1.200.000", "price_note": "+ IVA", "button_label": "Armar mi cotización", "button_link": "#cotizar", "button_style": "gold" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

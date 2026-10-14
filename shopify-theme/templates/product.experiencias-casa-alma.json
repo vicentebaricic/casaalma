@@ -1,0 +1,105 @@
+{
+  "sections": {
+    "main": {
+      "type": "ca-producto",
+      "blocks": {
+        "fact_1": {
+          "type": "fact",
+          "settings": {
+            "label": "Cuándo",
+            "value": "Viernes"
+          }
+        },
+        "fact_2": {
+          "type": "fact",
+          "settings": {
+            "label": "Horario",
+            "value": "20:00 a 00:30 hrs"
+          }
+        },
+        "fact_3": {
+          "type": "fact",
+          "settings": {
+            "label": "Dónde",
+            "value": "Las Mercedes 10, Liray, Colina"
+          }
+        },
+        "fact_4": {
+          "type": "fact",
+          "settings": {
+            "label": "Incluye",
+            "value": "6 tiempos + maridaje + show"
+          }
+        }
+      },
+      "block_order": [
+        "fact_1",
+        "fact_2",
+        "fact_3",
+        "fact_4"
+      ],
+      "settings": {}
+    },
+    "mas": {
+      "type": "ca-experiencias",
+      "settings": {
+        "collection": "experiencias-casa-alma",
+        "eyebrow": "Otras fechas",
+        "heading": "Elige otra noche.",
+        "text": "",
+        "limit": 3,
+        "hide_sold_out": true,
+        "anchor": "otras-fechas"
+      }
+    },
+    "ubicacion": {
+      "type": "ca-ubicacion",
+      "settings": {},
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "label": "Experiencia Casa Alma",
+            "value": "Viernes · 20:00 a 00:30 hrs",
+            "kind": "text"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "label": "Eventos privados",
+            "value": "Visitas con cita previa",
+            "kind": "text"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "label": "WhatsApp",
+            "value": "+56 9 6753 2727",
+            "kind": "whatsapp"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "label": "Correo",
+            "value": "alma@almalife.cl",
+            "kind": "email"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
+      ]
+    }
+  },
+  "order": [
+    "main",
+    "mas",
+    "ubicacion"
+  ]
+}

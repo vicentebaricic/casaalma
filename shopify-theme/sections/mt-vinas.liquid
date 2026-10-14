@@ -1,0 +1,58 @@
+<section class="ca ca-section mt-wines{% if section.settings.alt_bg %} ca--alt{% endif %}" id="{{ section.settings.anchor | default: 'vinas' | handle }}" aria-labelledby="MtWineTitle-{{ section.id }}">
+  <div class="ca-container">
+    <div class="ca-head ca-center ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <p class="mt-wines__line" id="MtWineTitle-{{ section.id }}">{{ section.settings.text }}</p>
+    </div>
+    <ul class="ca-list mt-wines__grid">
+      {%- for block in section.blocks -%}
+        <li class="mt-wine ca-reveal" {{ block.shopify_attributes }}>
+          {%- capture inner -%}
+            {%- if block.settings.logo != blank -%}
+              {{ block.settings.logo | image_url: width: 400 | image_tag: loading: 'lazy', alt: block.settings.name, class: 'mt-wine__logo' }}
+            {%- else -%}
+              <span class="mt-wine__name">{{ block.settings.name }}</span>
+            {%- endif -%}
+          {%- endcapture -%}
+          {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" target="_blank" rel="noopener">{{ inner }}</a>{%- else -%}{{ inner }}{%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT · Viñas partners",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "vinas" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": true },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Los vinos de la casa" },
+    { "type": "text", "id": "text", "label": "Una línea", "default": "Seleccionados por nuestro sommelier para cada tiempo." }
+  ],
+  "blocks": [
+    {
+      "type": "wine",
+      "name": "Viña",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "Viña por confirmar" },
+        { "type": "image_picker", "id": "logo", "label": "Logo (opcional)", "info": "Ideal: logo claro sobre fondo transparente (PNG/SVG)." },
+        { "type": "url", "id": "link", "label": "Enlace (opcional)" }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "MT · Viñas partners",
+      "blocks": [
+        { "type": "wine", "settings": { "name": "Viña por confirmar" } },
+        { "type": "wine", "settings": { "name": "Viña por confirmar" } },
+        { "type": "wine", "settings": { "name": "Viña por confirmar" } },
+        { "type": "wine", "settings": { "name": "Viña por confirmar" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

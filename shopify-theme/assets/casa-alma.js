@@ -102,3 +102,157 @@
   // Editor visual de Shopify: re-inicializar cuando se edita una sección
   document.addEventListener('shopify:section:load', function (e) { init(e.target); });
 })();
+
+/* MT · tracking, cotización rápida, postulación de artistas, reseñas */
+(function () {
+  'use strict';
+
+  function track(event, params) {
+    if (!window.mtTrackEvents) return;
+    try { if (typeof window.fbq === 'function') window.fbq('track', event, params || {}); } catch (e) {}
+  }
+
+  // Cada clic a WhatsApp → Contact
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('[data-mt-track], a[href*="wa.me/"]');
+    if (!a) return;
+    track(a.getAttribute('data-mt-track') || 'Contact', { content_name: a.getAttribute('data-mt-source') || 'web_whatsapp' });
+  });
+
+  function waUrl(number, text, source, withRef) {
+    if (withRef === 'true' && source) text += '\n\nref: source=' + source;
+    return 'https://wa.me/' + number + '?text=' + encodeURIComponent(text);
+  }
+
+  function fill(tpl, data) {
+    return tpl.replace(/\{(\w+)\}/g, function (m, k) { return data[k] != null ? data[k] : m; });
+  }
+
+  // Copia opcional al correo de la tienda (formulario de contacto de Shopify)
+  function emailCopy(card, subject, body, contact) {
+    if (card.getAttribute('data-email-copy') !== 'true') return;
+    var params = new URLSearchParams();
+    params.append('form_type', 'contact');
+    params.append('utf8', '✓');
+    params.append('contact[name]', subject);
+    if (/@/.test(contact || '')) params.append('contact[email]', contact.trim());
+    params.append('contact[body]', body);
+    try { fetch('/contact#contact_form', { method: 'POST', body: params, credentials: 'same-origin' }).catch(function () {}); } catch (e) {}
+  }
+
+  function validate(form) {
+    var ok = true;
+    form.querySelectorAll('[required]').forEach(function (el) {
+      var valid = el.value.trim() !== '' && (!el.checkValidity || el.checkValidity());
+      el.setAttribute('aria-invalid', valid ? 'false' : 'true');
+      if (!valid) ok = false;
+    });
+    var err = form.querySelector('.mt-form__error');
+    if (err) err.hidden = ok;
+    if (!ok) { var first = form.querySelector('[aria-invalid="true"]'); if (first) first.focus(); }
+    return ok;
+  }
+
+  function fmtDate(iso) {
+    var p = iso.split('-');
+    return p.length === 3 ? p[2] + '-' + p[1] + '-' + p[0] : iso;
+  }
+
+  function initQuote(root) {
+    root.querySelectorAll('[data-mt-quote]').forEach(function (card) {
+      if (card.dataset.mtReady) return;
+      card.dataset.mtReady = '1';
+      var form = card.querySelector('[data-mt-quote-form]');
+      var result = card.querySelector('[data-mt-quote-result]');
+      var cfg = {};
+      try { cfg = JSON.parse(card.querySelector('[data-mt-rates]').textContent); } catch (e) {}
+      var highMonths = (card.dataset.highMonths || '').split(',').map(function (m) { return parseInt(m, 10); });
+      var dateInput = form.querySelector('input[type="date"]');
+      if (dateInput) dateInput.min = new Date().toISOString().slice(0, 10);
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate(form)) return;
+        var data = Object.fromEntries(new FormData(form).entries());
+        var p = data.fecha.split('-');
+        var d = new Date(+p[0], +p[1] - 1, +p[2]);
+        var dow = d.getDay();
+        var dayKey = dow === 6 ? 'sat' : dow === 5 ? 'fri' : dow === 0 ? 'sun' : 'weekday';
+        var season = highMonths.indexOf(d.getMonth() + 1) > -1 ? 'high' : 'low';
+        var rate = (cfg.rates || {})[dayKey] || {};
+        var value = (rate[season] || '').trim();
+        var seasonLabel = (cfg.labels || {})[season] || '';
+        var note = (rate.name || '') + (seasonLabel ? ' · ' + seasonLabel : '');
+
+        var valueEl = card.querySelector('[data-mt-quote-value]');
+        var noteEl = card.querySelector('[data-mt-quote-note]');
+        if (value) {
+          valueEl.textContent = value + (cfg.suffix ? ' ' + cfg.suffix : '');
+          noteEl.textContent = note;
+        } else {
+          valueEl.textContent = note;
+          noteEl.textContent = cfg.pending || '';
+        }
+
+        data.fecha = fmtDate(data.fecha);
+        data.valor = value ? value + (cfg.suffix ? ' ' + cfg.suffix : '') + ' (' + note + ')' : 'por confirmar (' + note + ')';
+        var text = fill(card.dataset.msg || '', data);
+        card.querySelector('[data-mt-quote-wa]').href = waUrl(card.dataset.wa, text, 'web_cotizacion', card.dataset.ref);
+
+        form.hidden = true;
+        result.hidden = false;
+        result.focus();
+        track('Lead', { content_name: 'web_cotizacion', content_category: data.tipo });
+        emailCopy(card, 'Cotización web · ' + data.tipo, text, data.contacto);
+      });
+
+      card.querySelector('[data-mt-quote-reset]').addEventListener('click', function () {
+        result.hidden = true;
+        form.hidden = false;
+      });
+    });
+  }
+
+  function initArtist(root) {
+    root.querySelectorAll('[data-mt-artist]').forEach(function (card) {
+      if (card.dataset.mtReady) return;
+      card.dataset.mtReady = '1';
+      var form = card.querySelector('[data-mt-artist-form]');
+      var result = card.querySelector('[data-mt-artist-result]');
+      var ta = form.querySelector('[data-mt-counter]');
+      var count = form.querySelector('[data-mt-count]');
+      if (ta && count) ta.addEventListener('input', function () { count.textContent = ta.value.length; });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate(form)) return;
+        var data = Object.fromEntries(new FormData(form).entries());
+        data.mensaje = (data.mensaje || '').slice(0, 200) || '—';
+        var text = fill(card.dataset.msg || '', data);
+        card.querySelector('[data-mt-artist-wa]').href = waUrl(card.dataset.wa, text, 'web_artistas', card.dataset.ref);
+        form.hidden = true;
+        result.hidden = false;
+        result.focus();
+        track('Lead', { content_name: 'web_artistas', content_category: data.disciplina });
+        emailCopy(card, 'Postulación artista · ' + data.nombre, text, '');
+      });
+    });
+  }
+
+  function initReviews(root) {
+    root.querySelectorAll('[data-mt-reviews-more]').forEach(function (btn) {
+      if (btn.dataset.mtReady) return;
+      btn.dataset.mtReady = '1';
+      btn.addEventListener('click', function () {
+        var section = btn.closest('section');
+        section.querySelectorAll('.mt-review--more').forEach(function (el) { el.hidden = false; el.classList.add('is-visible'); });
+        btn.remove();
+      });
+    });
+  }
+
+  function init(root) { initQuote(root); initArtist(root); initReviews(root); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { init(document); });
+  else init(document);
+  document.addEventListener('shopify:section:load', function (e) { init(e.target); });
+})();

@@ -1,0 +1,26 @@
+{%- comment -%}
+  Link de WhatsApp con mensaje pre-escrito + origen del lead (tracking del funnel).
+  Uso: {% render 'mt-wa-url', message: '…', source: 'web_hero_exp', extra: 'fecha=23-oct' %}
+  El origen se agrega al final del mensaje: "ref: source=web_hero_exp&fecha=23-oct".
+{%- endcomment -%}
+{%- liquid
+  assign mt_ref = blank
+  assign mt_number = settings.ca_whatsapp | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '.'
+  assign mt_text = message | default: settings.ca_msg_contacto
+  if source != blank and settings.mt_wa_ref
+    assign mt_ref = 'source=' | append: source
+    if extra != blank
+      assign mt_ref = mt_ref | append: '&' | append: extra
+    endif
+  endif
+-%}
+{%- if mt_ref != blank -%}
+  {%- capture mt_text -%}{{ mt_text }}
+
+ref: {{ mt_ref }}{%- endcapture -%}
+{%- endif -%}
+{%- liquid
+  assign mt_text = mt_text | url_encode | replace: '+', '%20'
+-%}
+https://wa.me/{{ mt_number }}?text={{ mt_text }}
+{%- comment -%}fin{%- endcomment -%}

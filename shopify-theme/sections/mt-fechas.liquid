@@ -1,0 +1,131 @@
+{%- liquid
+  assign mt_collection = section.settings.collection
+  if mt_collection == blank and collection != blank
+    assign mt_collection = collection
+  endif
+  assign strip_text = section.settings.title_strip
+  assign shown = 0
+  assign available_count = 0
+  if mt_collection != blank
+    for p in mt_collection.products limit: 50
+      if p.available
+        assign available_count = available_count | plus: 1
+      endif
+    endfor
+  endif
+-%}
+<section class="ca ca-section{% if section.settings.alt_bg %} ca--alt{% endif %}" id="{{ section.settings.anchor | default: 'fechas' | handle }}" aria-labelledby="MtDatesTitle-{{ section.id }}">
+  <div class="ca-container">
+    <div class="ca-head ca-center ca-reveal">
+      {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="ca-h2-sm" id="MtDatesTitle-{{ section.id }}">{{ section.settings.heading }}</h2>
+    </div>
+
+    {%- if available_count > 0 -%}
+      <ul class="ca-list ca-grid mt-dates" style="--ca-cols: {{ section.settings.columns }};">
+        {%- for product in mt_collection.products limit: 50 -%}
+          {%- if product.available == false and section.settings.show_sold_out == false -%}{%- continue -%}{%- endif -%}
+          {%- if shown >= section.settings.limit -%}{%- break -%}{%- endif -%}
+          {%- liquid
+            assign shown = shown | plus: 1
+            assign fecha = product.title
+            if strip_text != blank
+              assign fecha = fecha | remove_first: strip_text | strip
+            endif
+            assign fecha_ref = fecha | handleize
+            assign artista = blank
+            if product.metafields.custom.artista != blank
+              assign artista = product.metafields.custom.artista.value
+            endif
+            assign cupos = 0
+            assign tracked = false
+            for v in product.variants
+              if v.inventory_management == 'shopify'
+                assign tracked = true
+                if v.inventory_quantity > 0
+                  assign cupos = cupos | plus: v.inventory_quantity
+                endif
+              endif
+            endfor
+            if product.available
+              assign msg = section.settings.msg_reserva | replace: '{fecha}', fecha
+            else
+              assign msg = section.settings.msg_espera | replace: '{fecha}', fecha
+            endif
+            assign extra = 'fecha=' | append: fecha_ref
+            assign txt_urgent = section.settings.label_urgent | replace: '{n}', cupos
+            assign txt_count = section.settings.label_count | replace: '{n}', cupos
+          -%}
+          {%- capture wa -%}{%- render 'mt-wa-url', message: msg, source: 'web_fecha', extra: extra -%}{%- endcapture -%}
+          <li class="ca-card ca-reveal{% unless product.available %} ca-card--soldout{% endunless %}">
+            <a class="ca-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+              {%- if product.featured_media -%}
+                {{ product.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw', alt: product.featured_media.alt | default: product.title }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'ca-placeholder' }}
+              {%- endif -%}
+            </a>
+            <div class="ca-card__body">
+              <h3 class="ca-card__title"><a href="{{ product.url }}">{{ fecha }}</a></h3>
+              {%- if artista != blank -%}<p class="ca-card__sub">{{ artista }}</p>{%- endif -%}
+              {%- if product.available == false -%}
+                <p class="mt-stock mt-stock--out">{{ section.settings.label_soldout }}</p>
+              {%- elsif tracked and cupos <= section.settings.urgent_threshold -%}
+                <p class="mt-stock mt-stock--urgent">{{ txt_urgent }}</p>
+              {%- elsif tracked and section.settings.show_count -%}
+                <p class="mt-stock">{{ txt_count }}</p>
+              {%- endif -%}
+              {%- if section.settings.show_price -%}<p class="ca-card__price">{{ product.price | money }} <span class="ca-muted">{{ section.settings.price_suffix }}</span></p>{%- endif -%}
+              <span class="ca-card__spacer"></span>
+              <a class="ca-btn {% if product.available %}ca-btn--gold{% else %}ca-btn--outline{% endif %} ca-btn--lg" href="{{ wa }}" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_fecha">
+                {%- if product.available -%}{{ section.settings.button_label }}{%- else -%}{{ section.settings.soldout_button }}{%- endif -%}
+              </a>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      {%- capture wa_aviso -%}{%- render 'mt-wa-url', message: section.settings.empty_message, source: 'web_fecha', extra: 'fecha=proxima' -%}{%- endcapture -%}
+      <div class="mt-empty ca-reveal">
+        <p class="mt-empty__text">{{ section.settings.empty_text }}</p>
+        <a class="ca-btn ca-btn--gold ca-btn--lg" href="{{ wa_aviso }}" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_fecha">{{ section.settings.empty_button }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT · Próximas fechas",
+  "tag": "div",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "ID de ancla", "default": "fechas" },
+    { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": false },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Próximas fechas" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Elige tu viernes." },
+    { "type": "collection", "id": "collection", "label": "Colección", "info": "Experiencias Casa Alma. Cada producto es una fecha; los cupos salen del inventario." },
+    { "type": "text", "id": "title_strip", "label": "Quitar del título del producto", "default": "Experiencia Casa Alma", "info": "\"Experiencia Casa Alma 23 de Octubre 2026\" se muestra como \"23 de Octubre 2026\"." },
+    { "type": "range", "id": "limit", "label": "Máximo de fechas", "min": 1, "max": 12, "step": 1, "default": 6 },
+    { "type": "select", "id": "columns", "label": "Columnas en escritorio", "options": [ { "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "4", "label": "4" } ], "default": "3" },
+    { "type": "checkbox", "id": "show_sold_out", "label": "Mostrar fechas agotadas", "default": true, "info": "Con botón de lista de espera. Si ninguna fecha tiene cupos se muestra el aviso de abajo." },
+    { "type": "checkbox", "id": "show_price", "label": "Mostrar precio", "default": true },
+    { "type": "text", "id": "price_suffix", "label": "Texto después del precio", "default": "por persona" },
+    { "type": "header", "content": "Cupos" },
+    { "type": "range", "id": "urgent_threshold", "label": "Mostrar en rojo desde", "min": 1, "max": 20, "step": 1, "default": 5 },
+    { "type": "text", "id": "label_urgent", "label": "Texto pocos cupos", "default": "Solo quedan {n} cupos" },
+    { "type": "checkbox", "id": "show_count", "label": "Mostrar cupos aunque queden muchos", "default": true },
+    { "type": "text", "id": "label_count", "label": "Texto cupos", "default": "{n} cupos disponibles" },
+    { "type": "text", "id": "label_soldout", "label": "Texto agotado", "default": "Agotado" },
+    { "type": "header", "content": "Botones y WhatsApp" },
+    { "type": "text", "id": "button_label", "label": "Botón con cupos", "default": "Reservar" },
+    { "type": "text", "id": "soldout_button", "label": "Botón agotado", "default": "Lista de espera" },
+    { "type": "textarea", "id": "msg_reserva", "label": "Mensaje de reserva", "default": "Hola Casa Alma, quiero reservar para la Experiencia del {fecha}. ¿Quedan cupos?", "info": "{fecha} se reemplaza por la fecha." },
+    { "type": "textarea", "id": "msg_espera", "label": "Mensaje lista de espera", "default": "Hola Casa Alma, vi que la Experiencia del {fecha} está agotada. ¿Me anotan en lista de espera?" },
+    { "type": "header", "content": "Sin fechas disponibles" },
+    { "type": "text", "id": "empty_text", "label": "Texto", "default": "Las próximas fechas se anuncian primero por WhatsApp." },
+    { "type": "text", "id": "empty_button", "label": "Botón", "default": "Avísame de la próxima fecha" },
+    { "type": "textarea", "id": "empty_message", "label": "Mensaje de WhatsApp", "default": "Hola Casa Alma, quiero que me avisen cuando abran la próxima fecha de la Experiencia." }
+  ],
+  "presets": [{ "name": "MT · Próximas fechas" }]
+}
+{% endschema %}
