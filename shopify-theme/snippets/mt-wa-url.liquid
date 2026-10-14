@@ -6,7 +6,7 @@
 {%- liquid
   assign mt_ref = blank
   assign mt_number = settings.ca_whatsapp | remove: '+' | remove: ' ' | remove: '-' | remove: '(' | remove: ')' | remove: '.'
-  assign mt_text = message | default: settings.ca_msg_contacto
+  assign mt_text = message | default: settings.ca_msg_contacto | replace: '{producto}', 'la próxima Experiencia Casa Alma'
   if source != blank and settings.mt_wa_ref
     assign mt_ref = 'source=' | append: source
     if extra != blank

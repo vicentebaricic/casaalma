@@ -526,7 +526,7 @@
 @media (min-width: 750px) { .mt-reviews { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; } }
 .ca .mt-stars { margin: 0 0 12px; color: var(--ca-gold); letter-spacing: .2em; font-size: 1.6rem; }
 .mt-reviews .ca-review blockquote { font-size: 2rem; }
-.mt-center-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; margin: 36px auto 0; max-width: none; }
+.ca .mt-center-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; margin: 36px auto 0; max-width: none; }
 
 /* Viñas */
 .ca .mt-wines__line { font-family: var(--ca-font-display); font-size: clamp(2.6rem, 3vw, 3.4rem); line-height: 1.25; margin: 0 auto; }
@@ -544,3 +544,5 @@
 .mt-ig__item img, .mt-ig__item .ca-placeholder { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms var(--ca-ease); }
 @media (hover: hover) and (min-width: 990px) { .mt-ig__item:hover img { transform: scale(1.03); } }
 .ca [hidden] { display: none !important; }
+
+.ca .mt-hero .ca-eyebrow { max-width: none; }

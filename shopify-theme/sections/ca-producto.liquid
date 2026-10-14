@@ -42,7 +42,7 @@
       <h1 class="ca-product__title">{{ product.title }}</h1>
       {%- if subtitle != blank -%}<p class="ca-lead ca-muted">{{ subtitle }}</p>{%- endif -%}
       {%- if section.settings.show_price -%}
-        <p class="ca-product__price">{{ product.price | money }}</p>
+        <p class="ca-product__price">{{ product.price | money_without_currency | replace: ',', '.' | prepend: '$' }}</p>
         {%- if section.settings.price_note != blank -%}<p class="ca-muted ca-small">{{ section.settings.price_note }}</p>{%- endif -%}
       {%- endif -%}
 
