@@ -250,43 +250,64 @@
         "photo_1": {
           "type": "photo",
           "settings": {
-            "alt": "Experiencia Casa Alma",
-            "fallback": "ca-experiencia-cena.webp"
+            "alt": "Invitados brindando en la mesa larga",
+            "fallback": "ca-ig-01.webp"
           }
         },
         "photo_2": {
           "type": "photo",
           "settings": {
-            "alt": "Experiencia Casa Alma",
-            "fallback": "ca-hero-noche.webp"
+            "alt": "Violinista tocando en vivo",
+            "fallback": "ca-ig-02.webp"
           }
         },
         "photo_3": {
           "type": "photo",
           "settings": {
-            "alt": "Experiencia Casa Alma",
-            "fallback": "ca-casona-jardin.webp"
+            "alt": "Plato del menú de 6 tiempos",
+            "fallback": "ca-ig-03.webp"
           }
         },
         "photo_4": {
           "type": "photo",
           "settings": {
-            "alt": "Experiencia Casa Alma",
-            "fallback": "ca-piscina.webp"
+            "alt": "Invitadas brindando con vino",
+            "fallback": "ca-ig-04.webp"
           }
         },
         "photo_5": {
           "type": "photo",
           "settings": {
-            "alt": "Experiencia Casa Alma",
-            "fallback": "ca-jardines.webp"
+            "alt": "Chef invitado brindando",
+            "fallback": "ca-ig-05.webp"
           }
         },
         "photo_6": {
           "type": "photo",
           "settings": {
-            "alt": "Experiencia Casa Alma",
-            "fallback": "ca-ceremonia-iglesia.webp"
+            "alt": "Mesa larga de la Experiencia Casa Alma",
+            "fallback": "ca-ig-06.webp"
+          }
+        },
+        "photo_7": {
+          "type": "photo",
+          "settings": {
+            "alt": "La fiesta con DJ al final de la noche",
+            "fallback": "ca-ig-07.webp"
+          }
+        },
+        "photo_8": {
+          "type": "photo",
+          "settings": {
+            "alt": "Vino de la casa",
+            "fallback": "ca-ig-08.webp"
+          }
+        },
+        "photo_9": {
+          "type": "photo",
+          "settings": {
+            "alt": "Invitados en la terraza iluminada",
+            "fallback": "ca-ig-09.webp"
           }
         }
       },
@@ -296,7 +317,10 @@
         "photo_3",
         "photo_4",
         "photo_5",
-        "photo_6"
+        "photo_6",
+        "photo_7",
+        "photo_8",
+        "photo_9"
       ]
     },
     "ubicacion": {

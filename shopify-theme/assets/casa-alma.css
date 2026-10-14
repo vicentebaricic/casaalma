@@ -546,3 +546,5 @@
 .ca [hidden] { display: none !important; }
 
 .ca .mt-hero .ca-eyebrow { max-width: none; }
+/* Galería: en 2 columnas, si queda una foto sola al final se oculta */
+@media (max-width: 749px) { .mt-ig__item:last-child:nth-child(odd) { display: none; } }
