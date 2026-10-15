@@ -9,12 +9,15 @@ LOGOS = [  # archivo, slug, nombre
  ("viña5.webp","casillero-del-diablo","Casillero del Diablo"),
  ("viña6.png","miguel-torres","Miguel Torres Chile"),
  ("viña7.png","santa-carolina","Santa Carolina"),
+ ("viña8.png","lof","Lof", 0.72),  # solo texto grueso: se ve más pesado, se reduce
 ]
 CREAM = np.array([0xEF,0xE6,0xD6], dtype=np.float32)
 CW, CH = 800, 400           # lienzo común 2:1
 TARGET_FILL = 0.30          # área de "tinta" objetivo relativa al lienzo (mismo peso visual)
 
-for fn, slug, name in LOGOS:
+for entry in LOGOS:
+    fn, slug, name = entry[:3]
+    factor = entry[3] if len(entry) > 3 else 1.0
     import glob, re
     num = re.search(r"(\d+)", fn).group(1)
     path = next(f for f in glob.glob(f"{src_dir}/*") if re.search(rf"a{num}\.", f))
@@ -47,7 +50,7 @@ for fn, slug, name in LOGOS:
     # 6) Mismo peso visual: escalar por área de tinta, dentro de un lienzo 2:1 común
     ink_area = (op > 0.12).sum() / op.size * (logo.width*logo.height)   # px de tinta
     s = (TARGET_FILL*CW*CH*0.55 / max(ink_area,1)) ** 0.5
-    s = min(s, (CW*0.92)/logo.width, (CH*0.86)/logo.height)
+    s = min(s * factor, (CW*0.92)/logo.width, (CH*0.86)/logo.height)
     logo = logo.resize((max(1,round(logo.width*s)), max(1,round(logo.height*s))), Image.LANCZOS)
     canvas = Image.new("RGBA",(CW,CH),(0,0,0,0))
     canvas.alpha_composite(logo, ((CW-logo.width)//2, (CH-logo.height)//2))

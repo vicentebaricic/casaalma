@@ -193,7 +193,10 @@
     },
     "vinas": {
       "type": "mt-vinas",
-      "settings": {},
+      "settings": {
+        "layout": "banner",
+        "alt_bg": false
+      },
       "blocks": {
         "wine_1": {
           "type": "wine",
@@ -243,6 +246,13 @@
             "name": "Santa Carolina",
             "logo_fallback": "ca-vina-santa-carolina.webp"
           }
+        },
+        "wine_8": {
+          "type": "wine",
+          "settings": {
+            "name": "Lof",
+            "logo_fallback": "ca-vina-lof.webp"
+          }
         }
       },
       "block_order": [
@@ -252,7 +262,8 @@
         "wine_4",
         "wine_5",
         "wine_6",
-        "wine_7"
+        "wine_7",
+        "wine_8"
       ]
     },
     "artistas": {

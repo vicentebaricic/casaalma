@@ -28,6 +28,14 @@
   {%- if settings.ca_hide_cart %}
   .header__icon--cart, cart-notification, cart-drawer, .product-form__buttons { display: none !important; }
   {%- endif %}
+  {%- assign ca_hidden_links = settings.ca_hide_menu_links | newline_to_br | split: '<br />' -%}
+  {%- for l in ca_hidden_links -%}
+    {%- assign ll = l | strip -%}
+    {%- if ll != blank %}
+  .header-wrapper li:has(> a[href$="{{ ll }}"]),
+  .menu-drawer li:has(> a[href$="{{ ll }}"]), .footer li:has(> a[href$="{{ ll }}"]) { display: none !important; }
+    {%- endif -%}
+  {%- endfor %}
 </style>
 {{ 'casa-alma.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'casa-alma.js' | asset_url }}" defer="defer"></script>

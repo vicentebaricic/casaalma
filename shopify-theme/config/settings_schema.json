@@ -67,6 +67,13 @@
         "info": "La reserva es por WhatsApp, no por carrito."
       },
       {
+        "type": "textarea",
+        "id": "ca_hide_menu_links",
+        "label": "Ocultar del menú estos enlaces (uno por línea)",
+        "default": "/collections/frontpage",
+        "info": "Oculta ítems del menú y del pie de página solo en este tema, sin cambiar el menú de la tienda. Ej: /collections/frontpage (Alma.life®)."
+      },
+      {
         "type": "header",
         "content": "Colores"
       },
