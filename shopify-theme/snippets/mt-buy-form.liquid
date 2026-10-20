@@ -1,8 +1,10 @@
 {%- comment -%}
-  Reserva con pago online: elige personas y va directo al pago de Shopify.
-  Uso: {% render 'mt-buy-form', product: product, label: 'Reservar y pagar', size: 'lg' %}
-  - El máximo de personas = cupos disponibles (inventario), tope en Ajustes → Casa Alma.
-  - Sin JavaScript funciona igual: agrega al carrito y vuelve al pago (return_to).
+  Reserva con pago online (directo al pago, sin pasar por el carrito).
+  Uso: {% render 'mt-buy-form', product: product, fecha: '23 de Octubre 2026', layout: 'card' | 'full' %}
+  - Personas: máximo = cupos disponibles (inventario), tope en Ajustes → Casa Alma.
+  - Muestra el total en vivo, fecha/hora, pago seguro y condiciones antes de pagar.
+  - Restricciones alimentarias (opcional) llegan al pedido como dato del producto.
+  - Sin JavaScript también funciona: agrega al carrito y vuelve al pago (return_to).
 {%- endcomment -%}
 {%- liquid
   assign v = product.selected_or_first_available_variant
@@ -14,16 +16,43 @@
     assign max_qty = 1
   endif
   assign uid = section.id | append: '-' | append: product.id
+  assign ca_fecha = fecha | default: product.title
+  assign price_txt = v.price | money_without_currency | replace: ',', '.' | prepend: '$'
+  assign cede_msg = settings.ca_buy_cede_msg | replace: '{fecha}', ca_fecha
+  assign extra = 'fecha=' | append: ca_fecha | handleize
 -%}
-<form class="mt-buy" action="{{ routes.cart_add_url }}" method="post" data-mt-buy
-  data-variant="{{ v.id }}" data-price="{{ v.price | divided_by: 100.0 }}" data-currency="{{ cart.currency.iso_code }}" data-name="{{ product.title | escape }}">
+{%- capture cede_wa -%}{%- render 'mt-wa-url', message: cede_msg, source: 'web_cesion', extra: extra -%}{%- endcapture -%}
+<form class="mt-buy mt-buy--{{ layout | default: 'full' }}" action="{{ routes.cart_add_url }}" method="post" data-mt-buy
+  data-variant="{{ v.id }}" data-unit="{{ v.price | divided_by: 100 }}" data-currency="{{ cart.currency.iso_code }}"
+  data-name="{{ product.title | escape }}" data-label="{{ settings.ca_buy_label | escape }}">
   <input type="hidden" name="id" value="{{ v.id }}">
   <input type="hidden" name="return_to" value="{{ routes.root_url | append: 'checkout' | replace: '//', '/' }}">
-  <label class="mt-buy__qty" for="MtQty-{{ uid }}">
-    <span>{{ qty_label | default: 'Personas' }}</span>
-    <select id="MtQty-{{ uid }}" name="quantity">
-      {%- for i in (1..max_qty) -%}<option value="{{ i }}">{{ i }}</option>{%- endfor -%}
-    </select>
-  </label>
-  <button class="ca-btn ca-btn--gold{% if size == 'lg' %} ca-btn--lg{% endif %} mt-buy__btn" type="submit">{{ label | default: 'Reservar y pagar' }}</button>
+
+  <div class="mt-buy__row">
+    <label class="mt-buy__qty" for="MtQty-{{ uid }}">
+      <span>Personas</span>
+      <select id="MtQty-{{ uid }}" name="quantity" data-mt-qty>
+        {%- for i in (1..max_qty) -%}<option value="{{ i }}">{{ i }}</option>{%- endfor -%}
+      </select>
+    </label>
+    <p class="mt-buy__sum" aria-live="polite"><strong data-mt-sum>1 persona · {{ price_txt }}</strong>
+      {%- if layout != 'card' and settings.ca_buy_event_info != blank -%}<span>{{ ca_fecha }} · {{ settings.ca_buy_event_info }}</span>{%- endif -%}
+    </p>
+  </div>
+
+  {%- if settings.ca_buy_ask_diet -%}
+    <details class="mt-buy__diet">
+      <summary>{{ settings.ca_buy_diet_label }}</summary>
+      <input type="text" name="properties[Restricciones alimentarias]" maxlength="200" placeholder="{{ settings.ca_buy_diet_placeholder | escape }}" aria-label="{{ settings.ca_buy_diet_label | escape }}">
+    </details>
+  {%- endif -%}
+
+  <button class="ca-btn ca-btn--gold ca-btn--lg mt-buy__btn" type="submit" data-mt-btn>{{ settings.ca_buy_label }} · {{ price_txt }}</button>
+
+  <div class="mt-buy__trust">
+    {%- if settings.ca_buy_trust != blank -%}<p class="mt-buy__secure"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10V8a6 6 0 0 1 12 0v2M5 10h14v10H5z"/></svg>{{ settings.ca_buy_trust }}</p>{%- endif -%}
+    {%- if settings.ca_buy_terms != blank -%}
+      <p class="mt-buy__terms">{{ settings.ca_buy_terms }}{% if settings.ca_buy_cede_label != blank %} <a href="{{ cede_wa }}" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_cesion">{{ settings.ca_buy_cede_label }}</a>{% endif %}</p>
+    {%- endif -%}
+  </div>
 </form>

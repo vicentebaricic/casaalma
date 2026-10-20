@@ -583,20 +583,35 @@
 @media (max-width: 749px) { .ca .mt-band__line { display: none; } .mt-band__head { margin-bottom: 10px; } }
 
 /* ---------- Reserva con pago online ---------- */
-.mt-buy { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: end; width: 100%; }
+.mt-buy { display: grid; gap: 12px; width: 100%; }
+.mt-buy__row { display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: end; }
 .mt-buy__qty { display: grid; gap: 6px; }
 .mt-buy__qty span { font-size: 1.3rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ca-muted); }
 .ca .mt-buy__qty select {
-  min-height: 64px; min-width: 88px; padding: 0 40px 0 18px;
+  min-height: 56px; min-width: 84px; padding: 0 40px 0 18px;
   font: inherit; font-size: 2rem; font-weight: 500; color: var(--ca-text);
   background: var(--ca-surface); border: 1px solid var(--ca-line-strong); border-radius: 2px;
   color-scheme: dark; appearance: none; -webkit-appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, var(--ca-gold) 50%), linear-gradient(135deg, var(--ca-gold) 50%, transparent 50%);
   background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%; background-size: 6px 6px; background-repeat: no-repeat;
 }
+.ca .mt-buy__sum { margin: 0; display: grid; gap: 2px; line-height: 1.35; padding-bottom: 6px; }
+.mt-buy__sum strong { font-family: var(--ca-font-display); font-weight: 600; font-size: 2.4rem; color: var(--ca-text); }
+.mt-buy__sum span { font-size: 1.45rem; color: var(--ca-muted); }
+.mt-buy__diet summary { cursor: pointer; font-size: 1.5rem; color: var(--ca-gold-light); padding: 6px 0; list-style: none; }
+.mt-buy__diet summary::-webkit-details-marker { display: none; }
+.mt-buy__diet[open] summary { color: var(--ca-muted); }
+.ca .mt-buy__diet input { width: 100%; min-height: 50px; padding: 12px 14px; font: inherit; font-size: 1.7rem; color: var(--ca-text); background: var(--ca-surface); border: 1px solid var(--ca-line-strong); border-radius: 2px; margin-top: 6px; }
 .ca .mt-buy__btn { width: 100%; }
 .ca .mt-buy__btn[disabled] { opacity: .7; cursor: progress; }
+.mt-buy__trust { display: grid; gap: 6px; }
+.ca .mt-buy__trust p { margin: 0; font-size: 1.4rem; line-height: 1.5; color: var(--ca-muted); }
+.mt-buy__secure { display: flex; gap: 8px; align-items: flex-start; }
+.mt-buy__secure svg { flex: none; width: 16px; height: 16px; margin-top: 3px; fill: none; stroke: var(--ca-gold); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ca .mt-buy__terms a { color: var(--ca-gold-light); text-decoration: underline; text-underline-offset: 3px; }
 .ca-card__body .mt-buy { margin-top: auto; }
-.ca-product__info .mt-buy { margin-bottom: 14px; }
+.mt-buy--card .mt-buy__sum strong { font-size: 2.1rem; }
+.mt-buy--card .mt-buy__trust p { font-size: 1.3rem; }
+.ca-product__info .mt-buy { margin: 6px 0 14px; }
 .ca-product__info .mt-buy + .ca-actions .ca-btn--outline { flex: 1 1 100%; }
 .ca .mt-address-note { margin: -16px 0 24px; }

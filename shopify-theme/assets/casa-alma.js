@@ -257,28 +257,59 @@
   document.addEventListener('shopify:section:load', function (e) { init(e.target); });
 })();
 
-/* MT · Reserva con pago online: directo al checkout con la cantidad elegida */
+/* MT · Reserva con pago online: total en vivo y directo al pago con la cantidad elegida */
 (function () {
   'use strict';
+  var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-CL'); };
+
+  function update(form) {
+    var qty = parseInt(form.querySelector('[data-mt-qty]').value, 10) || 1;
+    var total = fmt((parseFloat(form.dataset.unit) || 0) * qty);
+    var sum = form.querySelector('[data-mt-sum]');
+    if (sum) sum.textContent = qty + (qty === 1 ? ' persona' : ' personas') + ' · ' + total;
+    var btn = form.querySelector('[data-mt-btn]');
+    if (btn) btn.textContent = (form.dataset.label || 'Reservar y pagar') + ' · ' + total;
+  }
+
+  document.addEventListener('change', function (e) {
+    if (e.target.matches && e.target.matches('[data-mt-qty]')) update(e.target.closest('[data-mt-buy]'));
+  });
+
+  function root() { return (window.Shopify && Shopify.routes && Shopify.routes.root) || '/'; }
+
   document.addEventListener('submit', function (e) {
     var form = e.target.closest && e.target.closest('[data-mt-buy]');
     if (!form) return;
     e.preventDefault();
-    var qty = parseInt(form.querySelector('[name="quantity"]').value, 10) || 1;
-    var btn = form.querySelector('button[type="submit"]');
+    var qty = parseInt(form.querySelector('[data-mt-qty]').value, 10) || 1;
+    var diet = form.querySelector('[name="properties[Restricciones alimentarias]"]');
+    var dietTxt = diet ? diet.value.trim() : '';
+    var btn = form.querySelector('[data-mt-btn]');
     if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+
     try {
       if (window.mtTrackEvents && typeof window.fbq === 'function') {
-        var params = { content_ids: [form.dataset.variant], content_type: 'product', content_name: form.dataset.name, value: (parseFloat(form.dataset.price) || 0) * qty, currency: form.dataset.currency, num_items: qty };
+        var params = { content_ids: [form.dataset.variant], content_type: 'product', content_name: form.dataset.name, value: (parseFloat(form.dataset.unit) || 0) * qty, currency: form.dataset.currency, num_items: qty };
         window.fbq('track', 'AddToCart', params);
         window.fbq('track', 'InitiateCheckout', params);
       }
     } catch (err) {}
-    // Enlace de carrito de Shopify: crea un checkout solo con esta fecha y esta cantidad.
-    window.location.href = (window.Shopify && Shopify.routes && Shopify.routes.root || '/') + 'cart/' + form.dataset.variant + ':' + qty;
+
+    var permalink = root() + 'cart/' + form.dataset.variant + ':' + qty;
+    // La reserva es de una sola fecha: se deja el carrito solo con ella (y sus restricciones) y se va al pago.
+    var item = { id: parseInt(form.dataset.variant, 10), quantity: qty };
+    if (dietTxt) item.properties = { 'Restricciones alimentarias': dietTxt.slice(0, 200) };
+    fetch(root() + 'cart/clear.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+      .then(function (r) { if (!r.ok) throw new Error('clear'); return fetch(root() + 'cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ items: [item] }) }); })
+      .then(function (r) { if (!r.ok) throw new Error('add'); window.location.href = root() + 'checkout'; })
+      .catch(function () { window.location.href = permalink; });
   });
-  // Si el usuario vuelve con el botón Atrás, reactivar el botón.
+
+  // Si el usuario vuelve con "Atrás", reactivar el botón y recalcular.
   window.addEventListener('pageshow', function () {
-    document.querySelectorAll('[data-mt-buy] button[disabled]').forEach(function (b) { b.disabled = false; b.removeAttribute('aria-busy'); });
+    document.querySelectorAll('[data-mt-buy]').forEach(function (f) {
+      var b = f.querySelector('[data-mt-btn]'); if (b) { b.disabled = false; b.removeAttribute('aria-busy'); }
+      update(f);
+    });
   });
 })();
