@@ -15,6 +15,42 @@
         "content": "Reservas por WhatsApp"
       },
       {
+        "type": "header",
+        "content": "Reservas de la Experiencia"
+      },
+      {
+        "type": "select",
+        "id": "ca_booking_mode",
+        "label": "Cómo se reserva una fecha",
+        "options": [
+          {
+            "value": "online",
+            "label": "Pago online (botón principal) + WhatsApp para dudas"
+          },
+          {
+            "value": "whatsapp",
+            "label": "Solo WhatsApp"
+          }
+        ],
+        "default": "online",
+        "info": "Pago online: el cliente elige personas y va directo al pago; el inventario descuenta los cupos. Las fechas agotadas siempre ofrecen lista de espera por WhatsApp."
+      },
+      {
+        "type": "range",
+        "id": "ca_max_per_order",
+        "label": "Máximo de personas por compra",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "default": 10
+      },
+      {
+        "type": "text",
+        "id": "ca_buy_label",
+        "label": "Texto del botón de pago",
+        "default": "Reservar y pagar"
+      },
+      {
         "type": "text",
         "id": "ca_whatsapp",
         "label": "Número de WhatsApp",
@@ -62,9 +98,9 @@
       {
         "type": "checkbox",
         "id": "ca_hide_cart",
-        "label": "Ocultar carrito y botón de compra",
+        "label": "Ocultar el ícono del carrito mientras esté vacío",
         "default": true,
-        "info": "La reserva es por WhatsApp, no por carrito."
+        "info": "Con pago online el cliente va directo al pago; el carrito solo aparece si quedó algo pendiente."
       },
       {
         "type": "textarea",

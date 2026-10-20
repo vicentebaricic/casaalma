@@ -48,10 +48,15 @@
 
       {%- render 'ca-cupos', product: product, threshold: section.settings.low_stock, style: 'line' -%}
 
+      {%- if product.available and settings.ca_booking_mode == 'online' -%}
+        {%- render 'mt-buy-form', product: product, label: settings.ca_buy_label, size: 'lg' -%}
+      {%- endif -%}
       <div class="ca-actions">
-        <a class="ca-btn ca-btn--gold ca-btn--lg" href="{{ wa }}" target="_blank" rel="noopener">
-          {%- if product.available -%}{{ section.settings.button_label }}{%- else -%}{{ section.settings.soldout_label }}{%- endif -%}
-        </a>
+        {%- unless product.available and settings.ca_booking_mode == 'online' -%}
+          <a class="ca-btn ca-btn--gold ca-btn--lg" href="{{ wa }}" target="_blank" rel="noopener">
+            {%- if product.available -%}{{ section.settings.button_label }}{%- else -%}{{ section.settings.soldout_label }}{%- endif -%}
+          </a>
+        {%- endunless -%}
         {%- if section.settings.secondary_label != blank -%}
           <a class="ca-btn ca-btn--outline ca-btn--lg" href="{{ wa_contacto }}" target="_blank" rel="noopener">{{ section.settings.secondary_label }}</a>
         {%- endif -%}
@@ -90,7 +95,7 @@
     { "type": "header", "content": "Botones (WhatsApp)" },
     { "type": "text", "id": "button_label", "label": "Botón con cupos", "default": "Reservar por WhatsApp" },
     { "type": "text", "id": "soldout_label", "label": "Botón sin cupos", "default": "Anotarme en lista de espera" },
-    { "type": "text", "id": "secondary_label", "label": "Botón secundario", "default": "Tengo una consulta" }
+    { "type": "text", "id": "secondary_label", "label": "Botón secundario", "default": "¿Dudas? Escríbenos" }
   ],
   "blocks": [
     {

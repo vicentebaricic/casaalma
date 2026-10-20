@@ -2,7 +2,11 @@
   "sections": {
     "hero": {
       "type": "mt-hero",
-      "settings": {}
+      "settings": {
+        "btn1_action": "link",
+        "btn1_link": "#fechas",
+        "btn1_label": "Reservar una experiencia"
+      }
     },
     "caminos": {
       "type": "mt-bifurcacion",
@@ -101,7 +105,8 @@
           "settings": {
             "day": "sat",
             "name": "Sábado",
-            "low": "$3.200.000"
+            "low": "$3.200.000",
+            "high": "$3.900.000"
           }
         },
         "rate_2": {
@@ -109,7 +114,8 @@
           "settings": {
             "day": "fri",
             "name": "Viernes",
-            "low": "$2.200.000"
+            "low": "$2.200.000",
+            "high": "$2.900.000"
           }
         },
         "rate_3": {
@@ -117,7 +123,8 @@
           "settings": {
             "day": "sun",
             "name": "Domingo",
-            "low": "$1.600.000"
+            "low": "$1.600.000",
+            "high": "$2.000.000"
           }
         },
         "rate_4": {
@@ -125,7 +132,8 @@
           "settings": {
             "day": "weekday",
             "name": "Lunes a jueves",
-            "low": "$1.200.000"
+            "low": "$1.200.000",
+            "high": "$1.500.000"
           }
         }
       },

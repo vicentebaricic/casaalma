@@ -77,9 +77,13 @@
               {%- endif -%}
               {%- if section.settings.show_price -%}<p class="ca-card__price">{{ product.price | money_without_currency | replace: ',', '.' | prepend: '$' }} <span class="ca-muted">{{ section.settings.price_suffix }}</span></p>{%- endif -%}
               <span class="ca-card__spacer"></span>
-              <a class="ca-btn {% if product.available %}ca-btn--gold{% else %}ca-btn--outline{% endif %} ca-btn--lg" href="{{ wa }}" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_fecha">
-                {%- if product.available -%}{{ section.settings.button_label }}{%- else -%}{{ section.settings.soldout_button }}{%- endif -%}
-              </a>
+              {%- if product.available and settings.ca_booking_mode == 'online' -%}
+                {%- render 'mt-buy-form', product: product, label: settings.ca_buy_label, size: 'lg' -%}
+              {%- else -%}
+                <a class="ca-btn {% if product.available %}ca-btn--gold{% else %}ca-btn--outline{% endif %} ca-btn--lg" href="{{ wa }}" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_fecha">
+                  {%- if product.available -%}{{ section.settings.button_label }}{%- else -%}{{ section.settings.soldout_button }}{%- endif -%}
+                </a>
+              {%- endif -%}
             </div>
           </li>
         {%- endfor -%}

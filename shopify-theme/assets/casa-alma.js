@@ -256,3 +256,29 @@
   else init(document);
   document.addEventListener('shopify:section:load', function (e) { init(e.target); });
 })();
+
+/* MT · Reserva con pago online: directo al checkout con la cantidad elegida */
+(function () {
+  'use strict';
+  document.addEventListener('submit', function (e) {
+    var form = e.target.closest && e.target.closest('[data-mt-buy]');
+    if (!form) return;
+    e.preventDefault();
+    var qty = parseInt(form.querySelector('[name="quantity"]').value, 10) || 1;
+    var btn = form.querySelector('button[type="submit"]');
+    if (btn) { btn.disabled = true; btn.setAttribute('aria-busy', 'true'); }
+    try {
+      if (window.mtTrackEvents && typeof window.fbq === 'function') {
+        var params = { content_ids: [form.dataset.variant], content_type: 'product', content_name: form.dataset.name, value: (parseFloat(form.dataset.price) || 0) * qty, currency: form.dataset.currency, num_items: qty };
+        window.fbq('track', 'AddToCart', params);
+        window.fbq('track', 'InitiateCheckout', params);
+      }
+    } catch (err) {}
+    // Enlace de carrito de Shopify: crea un checkout solo con esta fecha y esta cantidad.
+    window.location.href = (window.Shopify && Shopify.routes && Shopify.routes.root || '/') + 'cart/' + form.dataset.variant + ':' + qty;
+  });
+  // Si el usuario vuelve con el botón Atrás, reactivar el botón.
+  window.addEventListener('pageshow', function () {
+    document.querySelectorAll('[data-mt-buy] button[disabled]').forEach(function (b) { b.disabled = false; b.removeAttribute('aria-busy'); });
+  });
+})();

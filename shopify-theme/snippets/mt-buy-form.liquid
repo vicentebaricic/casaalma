@@ -1,0 +1,29 @@
+{%- comment -%}
+  Reserva con pago online: elige personas y va directo al pago de Shopify.
+  Uso: {% render 'mt-buy-form', product: product, label: 'Reservar y pagar', size: 'lg' %}
+  - El máximo de personas = cupos disponibles (inventario), tope en Ajustes → Casa Alma.
+  - Sin JavaScript funciona igual: agrega al carrito y vuelve al pago (return_to).
+{%- endcomment -%}
+{%- liquid
+  assign v = product.selected_or_first_available_variant
+  assign max_qty = settings.ca_max_per_order | default: 10
+  if v.inventory_management == 'shopify' and v.inventory_policy == 'deny' and v.inventory_quantity < max_qty
+    assign max_qty = v.inventory_quantity
+  endif
+  if max_qty < 1
+    assign max_qty = 1
+  endif
+  assign uid = section.id | append: '-' | append: product.id
+-%}
+<form class="mt-buy" action="{{ routes.cart_add_url }}" method="post" data-mt-buy
+  data-variant="{{ v.id }}" data-price="{{ v.price | divided_by: 100.0 }}" data-currency="{{ cart.currency.iso_code }}" data-name="{{ product.title | escape }}">
+  <input type="hidden" name="id" value="{{ v.id }}">
+  <input type="hidden" name="return_to" value="{{ routes.root_url | append: 'checkout' | replace: '//', '/' }}">
+  <label class="mt-buy__qty" for="MtQty-{{ uid }}">
+    <span>{{ qty_label | default: 'Personas' }}</span>
+    <select id="MtQty-{{ uid }}" name="quantity">
+      {%- for i in (1..max_qty) -%}<option value="{{ i }}">{{ i }}</option>{%- endfor -%}
+    </select>
+  </label>
+  <button class="ca-btn ca-btn--gold{% if size == 'lg' %} ca-btn--lg{% endif %} mt-buy__btn" type="submit">{{ label | default: 'Reservar y pagar' }}</button>
+</form>

@@ -26,7 +26,7 @@
     {%- endif %}
   }
   {%- if settings.ca_hide_cart %}
-  .header__icon--cart, cart-notification, cart-drawer, .product-form__buttons { display: none !important; }
+  .header__icon--cart:not(:has(.cart-count-bubble)), .product-form__buttons { display: none !important; }
   {%- endif %}
   {%- assign ca_hidden_links = settings.ca_hide_menu_links | newline_to_br | split: '<br />' -%}
   {%- for l in ca_hidden_links -%}

@@ -38,17 +38,18 @@
         "fact_3",
         "fact_4"
       ],
-      "settings": {}
+      "settings": {
+        "secondary_label": "¿Dudas? Escríbenos"
+      }
     },
     "mas": {
-      "type": "ca-experiencias",
+      "type": "mt-fechas",
       "settings": {
         "collection": "experiencias-casa-alma",
         "eyebrow": "Otras fechas",
         "heading": "Elige otra noche.",
-        "text": "",
         "limit": 3,
-        "hide_sold_out": true,
+        "show_sold_out": false,
         "anchor": "otras-fechas"
       }
     },

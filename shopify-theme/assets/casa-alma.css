@@ -581,3 +581,21 @@
   .mt-band__viewport { -webkit-mask-image: none; mask-image: none; }
 }
 @media (max-width: 749px) { .ca .mt-band__line { display: none; } .mt-band__head { margin-bottom: 10px; } }
+
+/* ---------- Reserva con pago online ---------- */
+.mt-buy { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: end; width: 100%; }
+.mt-buy__qty { display: grid; gap: 6px; }
+.mt-buy__qty span { font-size: 1.3rem; letter-spacing: .14em; text-transform: uppercase; color: var(--ca-muted); }
+.ca .mt-buy__qty select {
+  min-height: 64px; min-width: 88px; padding: 0 40px 0 18px;
+  font: inherit; font-size: 2rem; font-weight: 500; color: var(--ca-text);
+  background: var(--ca-surface); border: 1px solid var(--ca-line-strong); border-radius: 2px;
+  color-scheme: dark; appearance: none; -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--ca-gold) 50%), linear-gradient(135deg, var(--ca-gold) 50%, transparent 50%);
+  background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%; background-size: 6px 6px; background-repeat: no-repeat;
+}
+.ca .mt-buy__btn { width: 100%; }
+.ca .mt-buy__btn[disabled] { opacity: .7; cursor: progress; }
+.ca-card__body .mt-buy { margin-top: auto; }
+.ca-product__info .mt-buy { margin-bottom: 14px; }
+.ca-product__info .mt-buy + .ca-actions .ca-btn--outline { flex: 1 1 100%; }
