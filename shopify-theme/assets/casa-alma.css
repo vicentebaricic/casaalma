@@ -599,3 +599,4 @@
 .ca-card__body .mt-buy { margin-top: auto; }
 .ca-product__info .mt-buy { margin-bottom: 14px; }
 .ca-product__info .mt-buy + .ca-actions .ca-btn--outline { flex: 1 1 100%; }
+.ca .mt-address-note { margin: -16px 0 24px; }

@@ -10,7 +10,13 @@
     },
     "ubicacion": {
       "type": "ca-ubicacion",
-      "settings": {},
+      "settings": {
+        "address": "<p><strong>Liray, Colina</strong><br>Región Metropolitana · a minutos de Chicureo</p>",
+        "map_query": "Liray, Colina, Región Metropolitana",
+        "directions_label": "",
+        "wa_label": "Agendar una visita",
+        "address_note": "La dirección exacta te la enviamos al confirmar tu reserva o visita."
+      },
       "blocks": {
         "item_1": {
           "type": "item",
@@ -24,7 +30,7 @@
           "type": "item",
           "settings": {
             "label": "Eventos privados",
-            "value": "Visitas con cita previa",
+            "value": "Visitas con cita previa por WhatsApp",
             "kind": "text"
           }
         },

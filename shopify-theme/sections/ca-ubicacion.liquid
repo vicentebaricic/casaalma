@@ -9,6 +9,7 @@
       {%- if section.settings.eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
       <h2 id="CaLocTitle-{{ section.id }}">{{ section.settings.heading | newline_to_br }}</h2>
       <address class="ca-rte">{{ section.settings.address }}</address>
+      {%- if section.settings.address_note != blank -%}<p class="ca-muted ca-small mt-address-note">{{ section.settings.address_note }}</p>{%- endif -%}
       <dl class="ca-contact">
         {%- for block in section.blocks -%}
           <div {{ block.shopify_attributes }}>
@@ -54,10 +55,11 @@
     { "type": "checkbox", "id": "alt_bg", "label": "Fondo alternativo", "default": true },
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Visítanos" },
     { "type": "textarea", "id": "heading", "label": "Título", "default": "A pasos de Chicureo,\nen pleno campo." },
-    { "type": "richtext", "id": "address", "label": "Dirección", "default": "<p><strong>Las Mercedes 10</strong><br>Liray, Colina · Región Metropolitana</p>" },
-    { "type": "text", "id": "map_query", "label": "Búsqueda en Google Maps", "default": "Casa Alma, Las Mercedes 10, Colina" },
-    { "type": "text", "id": "directions_label", "label": "Botón \"Cómo llegar\"", "default": "Cómo llegar" },
-    { "type": "text", "id": "wa_label", "label": "Botón WhatsApp", "default": "Escríbenos" }
+    { "type": "richtext", "id": "address", "label": "Dirección", "default": "<p><strong>Liray, Colina</strong><br>Región Metropolitana · a minutos de Chicureo</p>" },
+    { "type": "text", "id": "map_query", "label": "Búsqueda en Google Maps", "default": "Liray, Colina, Región Metropolitana", "info": "Usa solo la zona (no la calle): la dirección exacta se entrega al reservar." },
+    { "type": "text", "id": "directions_label", "label": "Botón \"Cómo llegar\"", "info": "Vacío = oculto. Abre Google Maps con la búsqueda de arriba." },
+    { "type": "text", "id": "wa_label", "label": "Botón WhatsApp", "default": "Agendar una visita" },
+    { "type": "text", "id": "address_note", "label": "Nota sobre la dirección", "default": "La dirección exacta te la enviamos al confirmar tu reserva o visita." }
   ],
   "blocks": [
     {

@@ -188,6 +188,88 @@
         "label": "Enviar eventos Lead y Contact",
         "default": true,
         "info": "Contact: cada clic a WhatsApp. Lead: cada envío de formulario. Requiere que el pixel esté cargado en la página."
+      },
+      {
+        "type": "header",
+        "content": "Datos para Google (empresa local)"
+      },
+      {
+        "type": "paragraph",
+        "content": "Se muestran a Google, no en la página. No incluye calle ni número: la dirección exacta se entrega al confirmar una reserva o visita."
+      },
+      {
+        "type": "text",
+        "id": "ca_schema_name",
+        "label": "Nombre",
+        "default": "Casa Alma"
+      },
+      {
+        "type": "select",
+        "id": "ca_schema_type",
+        "label": "Tipo de negocio",
+        "options": [
+          {
+            "value": "EventVenue",
+            "label": "Lugar de eventos"
+          },
+          {
+            "value": "Restaurant",
+            "label": "Restaurante"
+          },
+          {
+            "value": "LocalBusiness",
+            "label": "Negocio local"
+          }
+        ],
+        "default": "EventVenue"
+      },
+      {
+        "type": "textarea",
+        "id": "ca_schema_description",
+        "label": "Descripción",
+        "default": "Cenas maridaje de 6 tiempos con música en vivo y eventos privados en una casona colonial en Liray, Colina."
+      },
+      {
+        "type": "text",
+        "id": "ca_schema_locality",
+        "label": "Localidad",
+        "default": "Liray, Colina"
+      },
+      {
+        "type": "text",
+        "id": "ca_schema_region",
+        "label": "Región",
+        "default": "Región Metropolitana"
+      },
+      {
+        "type": "text",
+        "id": "ca_schema_area",
+        "label": "Zona que atiende",
+        "default": "Chicureo, Colina y Santiago"
+      },
+      {
+        "type": "text",
+        "id": "ca_schema_email",
+        "label": "Correo",
+        "default": "alma@almalife.cl"
+      },
+      {
+        "type": "text",
+        "id": "ca_schema_price_range",
+        "label": "Rango de precio",
+        "default": "$$$"
+      },
+      {
+        "type": "text",
+        "id": "ca_schema_instagram",
+        "label": "Instagram (si no está en Redes sociales)",
+        "default": "https://www.instagram.com/casa.alma.liray"
+      },
+      {
+        "type": "image_picker",
+        "id": "ca_schema_logo",
+        "label": "Logo para Google",
+        "info": "Ideal: logo de Casa Alma sobre fondo claro, cuadrado. Sin imagen se usa el logo del tema."
       }
     ]
   },

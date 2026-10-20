@@ -1,0 +1,59 @@
+{%- comment -%}
+  Datos de la empresa para Google (Organización + Empresa local), sin calle ni número:
+  la dirección exacta solo se entrega al confirmar una reserva o visita.
+  Se edita en Ajustes del tema → Casa Alma → Datos para Google.
+{%- endcomment -%}
+{%- liquid
+  assign ca_home = request.origin | append: routes.root_url
+  if settings.ca_schema_logo != blank
+    assign ca_logo = settings.ca_schema_logo | image_url: width: 600 | prepend: 'https:'
+  elsif settings.logo != blank
+    assign ca_logo = settings.logo | image_url: width: 600 | prepend: 'https:'
+  else
+    assign ca_logo = 'ca-logo-claro.webp' | asset_url | prepend: 'https:'
+  endif
+  assign ca_phone = settings.ca_whatsapp | remove: ' ' | remove: '-'
+  assign ca_ig = settings.social_instagram_link | default: settings.ca_schema_instagram
+  assign ca_same = ''
+  if ca_ig != blank
+    assign ca_same = ca_ig | json
+  endif
+  if settings.social_facebook_link != blank
+    if ca_same != blank
+      assign ca_same = ca_same | append: ', '
+    endif
+    assign ca_fb = settings.social_facebook_link | json
+    assign ca_same = ca_same | append: ca_fb
+  endif
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": [{{ settings.ca_schema_type | default: 'EventVenue' | json }}, "LocalBusiness"],
+    "@id": {{ ca_home | append: '#organizacion' | json }},
+    "name": {{ settings.ca_schema_name | default: shop.name | json }},
+    "url": {{ ca_home | json }},
+    "logo": {{ ca_logo | json }},
+    "image": {{ ca_logo | json }},
+    {%- if settings.ca_schema_description != blank %}
+    "description": {{ settings.ca_schema_description | json }},
+    {%- endif %}
+    {%- if ca_phone != blank %}
+    "telephone": {{ ca_phone | json }},
+    {%- endif %}
+    {%- if settings.ca_schema_email != blank %}
+    "email": {{ settings.ca_schema_email | json }},
+    {%- endif %}
+    {%- if settings.ca_schema_price_range != blank %}
+    "priceRange": {{ settings.ca_schema_price_range | json }},
+    {%- endif %}
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": {{ settings.ca_schema_locality | json }},
+      "addressRegion": {{ settings.ca_schema_region | json }},
+      "addressCountry": "CL"
+    },
+    "areaServed": {{ settings.ca_schema_area | json }},
+    "sameAs": [{{ ca_same }}]
+  }
+</script>
