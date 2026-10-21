@@ -48,10 +48,10 @@ Busca (Cmd+F / Ctrl+F) el texto `email_body }}`. Justo **después** de esa líne
         {%- assign ca_fecha = line.title | remove_first: 'Experiencia Casa Alma' | strip -%}
         <p style="margin:0 0 4px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#a8874c;">Experiencia Casa Alma</p>
         <p style="margin:0 0 12px;font-family:Georgia,serif;font-size:24px;color:#1c1814;">{{ ca_fecha }}</p>
-        <p style="margin:0 0 4px;"><strong>{{ line.quantity }} {% if line.quantity == 1 %}persona{% else %}personas{% endif %}</strong> · Llegada desde las 20:00 hrs · Termina 00:30 hrs</p>
+        <p style="margin:0 0 4px;"><strong>{{ line.quantity }} {% if line.quantity == 1 %}persona{% else %}personas{% endif %}</strong> · Horario: 20:00 a 00:30 hrs</p>
         {%- for p in line.properties -%}
           {%- if p.first == 'Restricciones alimentarias' and p.last != blank -%}
-            <p style="margin:0 0 4px;">Restricciones alimentarias: <strong>{{ p.last }}</strong> · las tenemos anotadas.</p>
+            <p style="margin:0 0 4px;">Restricciones alimentarias: <strong>{{ p.last }}</strong> · quedaron registradas en tu pedido.</p>
           {%- endif -%}
         {%- endfor -%}
         <p style="margin:0 0 16px;"></p>
