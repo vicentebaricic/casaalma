@@ -218,8 +218,28 @@
       },
       {
         "type": "checkbox",
+        "id": "ca_lang_switch",
+        "label": "Mostrar selector de idioma (ES | EN | PT)",
+        "default": true,
+        "info": "Aparece en el encabezado cuando hay más de un idioma publicado en Configuración → Idiomas."
+      },
+      {
+        "type": "select",
+        "id": "ca_font_pair",
+        "label": "Tipografía",
+        "options": [
+          { "value": "cormorant", "label": "Cormorant Garamond + Jost (clásica)" },
+          { "value": "gloock", "label": "Gloock + Hanken Grotesk (editorial)" },
+          { "value": "instrument", "label": "Instrument Serif + Sans (moderna)" },
+          { "value": "fraunces", "label": "Fraunces + Figtree (cálida)" },
+          { "value": "bodoni", "label": "Bodoni Moda + Manrope (lujo)" }
+        ],
+        "default": "cormorant"
+      },
+      {
+        "type": "checkbox",
         "id": "ca_use_fonts_globally",
-        "label": "Usar Cormorant Garamond + Jost en todo el sitio",
+        "label": "Usar la tipografía Casa Alma en todo el sitio",
         "default": true,
         "info": "Incluye encabezado, pie de página y páginas estándar."
       },

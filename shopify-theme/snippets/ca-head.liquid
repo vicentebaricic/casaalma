@@ -4,7 +4,45 @@
 {%- endcomment -%}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+{%- liquid
+  case settings.ca_font_pair
+    when 'gloock'
+      assign f_url = 'family=Gloock&family=Hanken+Grotesk:wght@300;400;500'
+      assign f_display = '"Gloock", Georgia, serif'
+      assign f_body = '"Hanken Grotesk", "Helvetica Neue", Arial, sans-serif'
+      assign f_dw = 400
+      assign f_ew = 400
+    when 'instrument'
+      assign f_url = 'family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500'
+      assign f_display = '"Instrument Serif", Georgia, serif'
+      assign f_body = '"Instrument Sans", "Helvetica Neue", Arial, sans-serif'
+      assign f_dw = 400
+      assign f_ew = 400
+    when 'fraunces'
+      assign f_url = 'family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Figtree:wght@300;400;500'
+      assign f_display = '"Fraunces", Georgia, serif'
+      assign f_body = '"Figtree", "Helvetica Neue", Arial, sans-serif'
+      assign f_dw = 400
+      assign f_ew = 400
+    when 'bodoni'
+      assign f_url = 'family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400&family=Manrope:wght@300;400;500'
+      assign f_display = '"Bodoni Moda", "Didot", serif'
+      assign f_body = '"Manrope", "Helvetica Neue", Arial, sans-serif'
+      assign f_dw = 500
+      assign f_ew = 400
+    else
+      assign f_url = 'family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Jost:wght@300;400;500'
+      assign f_display = '"Cormorant Garamond", "Times New Roman", serif'
+      assign f_body = '"Jost", "Helvetica Neue", Arial, sans-serif'
+      assign f_dw = 600
+      assign f_ew = 500
+  endcase
+  assign f_bw = 300
+  if settings.ca_font_pair == 'instrument'
+    assign f_bw = 400
+  endif
+-%}
+<link href="https://fonts.googleapis.com/css2?{{ f_url }}&family=Caveat:wght@500&display=swap" rel="stylesheet">
 <style>
   :root {
     --ca-bg: {{ settings.ca_color_bg }};
@@ -15,14 +53,17 @@
     --ca-gold: {{ settings.ca_color_gold }};
     --ca-gold-light: {{ settings.ca_color_gold_light }};
     --ca-on-gold: {{ settings.ca_color_on_gold }};
-    --ca-font-display: "Cormorant Garamond", "Times New Roman", serif;
-    --ca-font-body: "Jost", "Helvetica Neue", Arial, sans-serif;
+    --ca-font-display: {{ f_display }};
+    --ca-font-body: {{ f_body }};
+    --ca-display-w: {{ f_dw }};
+    --ca-display-em-w: {{ f_ew }};
+    --ca-body-w: {{ f_bw }};
     --ca-font-script: "Caveat", "Segoe Script", cursive;
     {%- if settings.ca_use_fonts_globally %}
     --font-heading-family: var(--ca-font-display);
-    --font-heading-weight: 600;
+    --font-heading-weight: {{ f_dw }};
     --font-body-family: var(--ca-font-body);
-    --font-body-weight: 300;
+    --font-body-weight: {{ f_bw }};
     {%- endif %}
   }
   {%- if settings.ca_hide_cart %}

@@ -97,7 +97,7 @@
             {%- if section.settings.rates_eyebrow != blank -%}<p class="ca-eyebrow">{{ section.settings.rates_eyebrow }}</p>{%- endif -%}
             <h3 class="ca-h2-sm">{{ section.settings.rates_heading }}</h3>
           </div>
-          <div class="ca-season" role="tablist" aria-label="Temporada" data-ca-seasons>
+          <div class="ca-season" role="tablist" aria-label="{{ 'casa_alma.season' | t }}" data-ca-seasons>
             <button type="button" role="tab" id="CaTabLow-{{ sid }}" aria-selected="true" aria-controls="CaPanelLow-{{ sid }}">
               {{- section.settings.low_label }} <small>{{ section.settings.low_months }}</small>
             </button>

@@ -274,7 +274,6 @@
       "announcement": "Announcement",
       "announcement_bar": "Announcement bar"
     },
-
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
@@ -528,5 +527,24 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "casa_alma": {
+    "people": "Guests",
+    "person_one": "person",
+    "person_other": "people",
+    "sold_out_date": "Sold out for this date",
+    "sold_out": "Sold out",
+    "spots_left_one_html": "Only <strong>1 spot</strong> left",
+    "spots_left_other_html": "Only <strong>{{ n }} spots</strong> left",
+    "spots_available": "Spots available",
+    "last_spot": "Last spot",
+    "spots_badge": "{{ n }} spots left",
+    "choose_option": "Choose an option",
+    "choose_range": "Choose a range",
+    "change_data": "Change details",
+    "scroll": "Scroll",
+    "scroll_label": "Scroll down",
+    "five_stars": "5 stars",
+    "season": "Season"
   }
 }

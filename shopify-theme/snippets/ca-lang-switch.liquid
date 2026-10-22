@@ -1,0 +1,25 @@
+{%- comment -%}
+  Selector de idioma ES | EN | PT (segmentado). Muestra solo los idiomas publicados
+  en Configuración → Idiomas. En el editor del tema, si aún hay uno solo, muestra
+  una vista previa (sin funcionar) para poder ver el diseño.
+{%- endcomment -%}
+{%- if settings.ca_lang_switch -%}
+  {%- if localization.available_languages.size > 1 -%}
+    {%- form 'localization', class: 'ca-lang', id: 'CaLangForm' -%}
+      <span class="visually-hidden">{{ 'localization.language_label' | t }}</span>
+      {%- for language in localization.available_languages -%}
+        {%- assign code = language.iso_code | split: '-' | first | upcase -%}
+        <button
+          type="submit" name="language_code" value="{{ language.iso_code }}" lang="{{ language.iso_code }}"
+          class="ca-lang__opt"
+          {% if language.iso_code == localization.language.iso_code %}aria-current="true"{% endif %}
+          title="{{ language.endonym_name | capitalize }}"
+        >{{ code }}</button>
+      {%- endfor -%}
+    {%- endform -%}
+  {%- elsif request.design_mode -%}
+    <div class="ca-lang" title="Vista previa: publica Inglés y Portugués en Configuración → Idiomas para activarlo">
+      <span class="ca-lang__opt" aria-current="true">ES</span><span class="ca-lang__opt">EN</span><span class="ca-lang__opt">PT</span>
+    </div>
+  {%- endif -%}
+{%- endif -%}

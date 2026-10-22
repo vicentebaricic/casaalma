@@ -266,7 +266,7 @@
     var qty = parseInt(form.querySelector('[data-mt-qty]').value, 10) || 1;
     var total = fmt((parseFloat(form.dataset.unit) || 0) * qty);
     var sum = form.querySelector('[data-mt-sum]');
-    if (sum) sum.textContent = qty + (qty === 1 ? ' persona' : ' personas') + ' · ' + total;
+    if (sum) sum.textContent = qty + ' ' + (qty === 1 ? (form.dataset.one || 'persona') : (form.dataset.other || 'personas')) + ' · ' + total;
     var btn = form.querySelector('[data-mt-btn]');
     if (btn) btn.textContent = (form.dataset.label || 'Reservar y pagar') + ' · ' + total;
   }

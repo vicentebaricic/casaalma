@@ -539,5 +539,24 @@
       "expanded": "Formulario del destinatario de la tarjeta de regalo expandido",
       "collapsed": "Formulario del destinatario de tarjeta de regalo contraído"
     }
+  },
+  "casa_alma": {
+    "people": "Personas",
+    "person_one": "persona",
+    "person_other": "personas",
+    "sold_out_date": "Sin cupos para esta fecha",
+    "sold_out": "Sin cupos",
+    "spots_left_one_html": "Queda <strong>1 cupo</strong>",
+    "spots_left_other_html": "Quedan <strong>{{ n }} cupos</strong>",
+    "spots_available": "Cupos disponibles",
+    "last_spot": "Último cupo",
+    "spots_badge": "Quedan {{ n }} cupos",
+    "choose_option": "Elige una opción",
+    "choose_range": "Elige un rango",
+    "change_data": "Cambiar datos",
+    "scroll": "Baja",
+    "scroll_label": "Bajar",
+    "five_stars": "5 estrellas",
+    "season": "Temporada"
   }
 }

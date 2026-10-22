@@ -48,38 +48,40 @@
     },
     "diferenciadores": {
       "type": "mt-diferenciadores",
-      "settings": {},
+      "settings": {
+        "intro": "Cada viernes cambia el artista, el menú y las viñas. Lo que se mantiene es la mesa larga y la sensación de estar cenando en casa."
+      },
       "blocks": {
         "item_1": {
           "type": "item",
           "settings": {
-            "icon": "musica",
             "title": "Artistas nuevos cada semana",
-            "text": "Ninguna noche se repite."
+            "text": "Ninguna noche se repite.",
+            "fallback": "ca-dif-artistas.webp"
           }
         },
         "item_2": {
           "type": "item",
           "settings": {
-            "icon": "mesa",
             "title": "Mesa larga, sin rotaciones",
-            "text": "Te sientas y la noche es tuya."
+            "text": "Te sientas y la noche es tuya.",
+            "fallback": "ca-dif-mesa.webp"
           }
         },
         "item_3": {
           "type": "item",
           "settings": {
-            "icon": "chef",
             "title": "Chef y sommelier invitados",
-            "text": "El equipo rota en cada fecha."
+            "text": "El equipo rota en cada fecha.",
+            "fallback": "ca-dif-chef.webp"
           }
         },
         "item_4": {
           "type": "item",
           "settings": {
-            "icon": "copa",
             "title": "Viñas seleccionadas",
-            "text": "Una copa pensada para cada tiempo."
+            "text": "Una copa pensada para cada tiempo.",
+            "fallback": "ca-dif-vinas.webp"
           }
         }
       },

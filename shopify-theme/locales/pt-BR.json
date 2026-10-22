@@ -539,5 +539,24 @@
       "expanded": "Formulário de destinatário do cartão-presente expandido",
       "collapsed": "Formulário de destinatário do cartão-presente recolhido"
     }
+  },
+  "casa_alma": {
+    "people": "Pessoas",
+    "person_one": "pessoa",
+    "person_other": "pessoas",
+    "sold_out_date": "Esgotado para esta data",
+    "sold_out": "Esgotado",
+    "spots_left_one_html": "Resta <strong>1 vaga</strong>",
+    "spots_left_other_html": "Restam <strong>{{ n }} vagas</strong>",
+    "spots_available": "Vagas disponíveis",
+    "last_spot": "Última vaga",
+    "spots_badge": "Restam {{ n }} vagas",
+    "choose_option": "Escolha uma opção",
+    "choose_range": "Escolha uma faixa",
+    "change_data": "Alterar dados",
+    "scroll": "Role",
+    "scroll_label": "Rolar para baixo",
+    "five_stars": "5 estrelas",
+    "season": "Temporada"
   }
 }

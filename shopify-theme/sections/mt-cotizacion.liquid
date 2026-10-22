@@ -35,7 +35,7 @@
         <div class="mt-field">
           <label for="MtQType-{{ sid }}">{{ section.settings.label_type }}</label>
           <select id="MtQType-{{ sid }}" name="tipo" required>
-            <option value="" disabled selected>Elige una opción</option>
+            <option value="" disabled selected>{{ 'casa_alma.choose_option' | t }}</option>
             {%- for t in tipos -%}{%- assign tt = t | strip -%}{%- if tt != blank -%}<option>{{ tt }}</option>{%- endif -%}{%- endfor -%}
           </select>
         </div>
@@ -46,7 +46,7 @@
         <div class="mt-field">
           <label for="MtQGuests-{{ sid }}">{{ section.settings.label_guests }}</label>
           <select id="MtQGuests-{{ sid }}" name="invitados" required>
-            <option value="" disabled selected>Elige un rango</option>
+            <option value="" disabled selected>{{ 'casa_alma.choose_range' | t }}</option>
             {%- for r in rangos -%}{%- assign rr = r | strip -%}{%- if rr != blank -%}<option>{{ rr }}</option>{%- endif -%}{%- endfor -%}
           </select>
         </div>
@@ -64,7 +64,7 @@
         <p class="ca-muted mt-result__note" data-mt-quote-note></p>
         <p class="ca-muted ca-small">{{ section.settings.result_disclaimer }}</p>
         <a class="ca-btn ca-btn--gold ca-btn--lg" data-mt-quote-wa href="#" target="_blank" rel="noopener" data-mt-track="Contact" data-mt-source="web_cotizacion">{{ section.settings.wa_label }}</a>
-        <button class="mt-link-btn" type="button" data-mt-quote-reset>Cambiar datos</button>
+        <button class="mt-link-btn" type="button" data-mt-quote-reset>{{ 'casa_alma.change_data' | t }}</button>
       </div>
     </div>
   </div>

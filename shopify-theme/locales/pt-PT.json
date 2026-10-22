@@ -539,5 +539,24 @@
       "expanded": "Formulário de destinatário do cartão de oferta expandido",
       "collapsed": "Formulário de destinatário do cartão de oferta fechado"
     }
+  },
+  "casa_alma": {
+    "people": "Pessoas",
+    "person_one": "pessoa",
+    "person_other": "pessoas",
+    "sold_out_date": "Esgotado para esta data",
+    "sold_out": "Esgotado",
+    "spots_left_one_html": "Resta <strong>1 lugar</strong>",
+    "spots_left_other_html": "Restam <strong>{{ n }} lugares</strong>",
+    "spots_available": "Lugares disponíveis",
+    "last_spot": "Último lugar",
+    "spots_badge": "Restam {{ n }} lugares",
+    "choose_option": "Escolha uma opção",
+    "choose_range": "Escolha uma faixa",
+    "change_data": "Alterar dados",
+    "scroll": "Desça",
+    "scroll_label": "Descer",
+    "five_stars": "5 estrelas",
+    "season": "Temporada"
   }
 }

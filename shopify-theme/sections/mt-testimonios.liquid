@@ -12,7 +12,7 @@
     <div class="mt-reviews" data-mt-reviews>
       {%- for block in section.blocks -%}
         <figure class="ca-review ca-reveal{% if forloop.index > visible %} mt-review--more{% endif %}" {% if forloop.index > visible %}hidden{% endif %} {{ block.shopify_attributes }}>
-          {%- if section.settings.show_stars -%}<p class="mt-stars" aria-label="5 estrellas">★★★★★</p>{%- endif -%}
+          {%- if section.settings.show_stars -%}<p class="mt-stars" aria-label="{{ 'casa_alma.five_stars' | t }}">★★★★★</p>{%- endif -%}
           <blockquote>“{{ block.settings.quote }}”</blockquote>
           <figcaption>{{ block.settings.author }} <span>{{ block.settings.source }}</span></figcaption>
         </figure>

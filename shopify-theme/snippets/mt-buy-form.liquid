@@ -24,18 +24,19 @@
 {%- capture cede_wa -%}{%- render 'mt-wa-url', message: cede_msg, source: 'web_cesion', extra: extra -%}{%- endcapture -%}
 <form class="mt-buy mt-buy--{{ layout | default: 'full' }}" action="{{ routes.cart_add_url }}" method="post" data-mt-buy
   data-variant="{{ v.id }}" data-unit="{{ v.price | divided_by: 100 }}" data-currency="{{ cart.currency.iso_code }}"
-  data-name="{{ product.title | escape }}" data-label="{{ settings.ca_buy_label | escape }}">
+  data-name="{{ product.title | escape }}" data-label="{{ settings.ca_buy_label | escape }}"
+  data-one="{{ 'casa_alma.person_one' | t | escape }}" data-other="{{ 'casa_alma.person_other' | t | escape }}">
   <input type="hidden" name="id" value="{{ v.id }}">
   <input type="hidden" name="return_to" value="{{ routes.root_url | append: 'checkout' | replace: '//', '/' }}">
 
   <div class="mt-buy__row">
     <label class="mt-buy__qty" for="MtQty-{{ uid }}">
-      <span>Personas</span>
+      <span>{{ 'casa_alma.people' | t }}</span>
       <select id="MtQty-{{ uid }}" name="quantity" data-mt-qty>
         {%- for i in (1..max_qty) -%}<option value="{{ i }}">{{ i }}</option>{%- endfor -%}
       </select>
     </label>
-    <p class="mt-buy__sum" aria-live="polite"><strong data-mt-sum>1 persona · {{ price_txt }}</strong>
+    <p class="mt-buy__sum" aria-live="polite"><strong data-mt-sum>1 {{ 'casa_alma.person_one' | t }} · {{ price_txt }}</strong>
       {%- if layout != 'card' and settings.ca_buy_event_info != blank -%}<span>{{ ca_fecha }} · {{ settings.ca_buy_event_info }}</span>{%- endif -%}
     </p>
   </div>

@@ -24,7 +24,7 @@
         <div class="mt-field">
           <label for="MtADisc-{{ sid }}">{{ section.settings.label_discipline }}</label>
           <select id="MtADisc-{{ sid }}" name="disciplina" required>
-            <option value="" disabled selected>Elige una opción</option>
+            <option value="" disabled selected>{{ 'casa_alma.choose_option' | t }}</option>
             {%- for d in disciplinas -%}{%- assign dd = d | strip -%}{%- if dd != blank -%}<option>{{ dd }}</option>{%- endif -%}{%- endfor -%}
           </select>
         </div>

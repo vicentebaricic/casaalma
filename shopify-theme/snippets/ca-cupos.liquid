@@ -19,16 +19,16 @@
 -%}
 {%- if style == 'line' -%}
   {%- if product.available == false -%}
-    <p class="ca-stock ca-stock--out"><span class="ca-dot" aria-hidden="true"></span> Sin cupos para esta fecha</p>
+    <p class="ca-stock ca-stock--out"><span class="ca-dot" aria-hidden="true"></span> {{ 'casa_alma.sold_out_date' | t }}</p>
   {%- elsif ca_tracked and ca_cupos <= ca_threshold -%}
-    <p class="ca-stock"><span class="ca-dot" aria-hidden="true"></span> {% if ca_cupos == 1 %}Queda <strong>1 cupo</strong>{% else %}Quedan <strong>{{ ca_cupos }} cupos</strong>{% endif %}</p>
+    <p class="ca-stock"><span class="ca-dot" aria-hidden="true"></span> {% if ca_cupos == 1 %}{{ 'casa_alma.spots_left_one_html' | t }}{% else %}{{ 'casa_alma.spots_left_other_html' | t: n: ca_cupos }}{% endif %}</p>
   {%- else -%}
-    <p class="ca-stock"><span class="ca-dot" aria-hidden="true"></span> Cupos disponibles</p>
+    <p class="ca-stock"><span class="ca-dot" aria-hidden="true"></span> {{ 'casa_alma.spots_available' | t }}</p>
   {%- endif -%}
 {%- else -%}
   {%- if product.available == false -%}
-    <span class="ca-badge ca-badge--soldout">Sin cupos</span>
+    <span class="ca-badge ca-badge--soldout">{{ 'casa_alma.sold_out' | t }}</span>
   {%- elsif ca_tracked and ca_cupos <= ca_threshold -%}
-    <span class="ca-badge">{% if ca_cupos == 1 %}Último cupo{% else %}Quedan {{ ca_cupos }} cupos{% endif %}</span>
+    <span class="ca-badge">{% if ca_cupos == 1 %}{{ 'casa_alma.last_spot' | t }}{% else %}{{ 'casa_alma.spots_badge' | t: n: ca_cupos }}{% endif %}</span>
   {%- endif -%}
 {%- endif -%}

@@ -76,7 +76,7 @@
   </div>
 
   {%- if section.settings.scroll_target != blank -%}
-    <a class="ca-scroll-cue" href="#{{ section.settings.scroll_target | handle }}" aria-label="Bajar"><span>Baja</span></a>
+    <a class="ca-scroll-cue" href="#{{ section.settings.scroll_target | handle }}" aria-label="{{ 'casa_alma.scroll_label' | t }}"><span>{{ 'casa_alma.scroll' | t }}</span></a>
   {%- endif -%}
 </section>
 
